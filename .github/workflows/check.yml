@@ -9,8 +9,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
       - name: Install dependencies
-        run: bun ci --legacy-peer-deps
+        run: bun install --frozen-lockfile
       - name: Lint
         run: bun run lint
   test:
@@ -19,7 +21,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
       - name: Install dependencies
-        run: bun ci --legacy-peer-deps
+        run: bun install --frozen-lockfile
       - name: Test
         run: bun run test
