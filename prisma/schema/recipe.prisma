@@ -1,0 +1,44 @@
+model Recipe {
+    id String @id @default(cuid())
+
+    title       String
+    description String
+    calories    Int
+    imageUrl    String     @map("image_url")
+    difficulty  Difficulty
+    tags        Tags[]
+    CPFC        CPFC[]
+
+    author            User               @relation(fields: [authorId], references: [id])
+    authorId          String             @map("author_id")
+    recipeStep        RecipeStep[]
+    recipeIngredients RecipeIngredient[]
+    comments          Comment[]
+    likes             Like[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("recipes")
+}
+
+enum Tags {
+    COMFORT_FOOD
+    QUICK_MEAL
+    HEALTHY
+    EASY_TO_MAKE
+    VEGETARIAN
+}
+
+enum CPFC {
+    PROTEIN
+    CARBOHYDRATES
+    FATS
+    FIBER
+}
+
+enum Difficulty {
+    EASY
+    MEDIUM
+    HARD
+}
