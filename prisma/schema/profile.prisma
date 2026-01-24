@@ -9,7 +9,7 @@ model Profile {
 
     sites String[] @default([])
 
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @unique @map("user_id")
 
     createdAt DateTime @default(now()) @map("created_at")

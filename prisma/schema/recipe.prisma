@@ -9,7 +9,7 @@ model Recipe {
     tags        Tags[]
     CPFC        CPFC[]
 
-    author            User               @relation(fields: [authorId], references: [id])
+    author            User               @relation(fields: [authorId], references: [id], onDelete: Cascade)
     authorId          String             @map("author_id")
     recipeStep        RecipeStep[]
     recipeIngredients RecipeIngredient[]
@@ -19,7 +19,49 @@ model Recipe {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index(fields: [title], type: Hash)
     @@map("recipes")
+}
+
+model RecipeIngredient {
+    id String @id @default(cuid())
+
+    name        String
+    description String
+    iconUrl     String? @map("icon_url")
+    quantity    Decimal
+    unit        Unit
+    price       Decimal
+
+    recipe   Recipe? @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+    recipeId String? @map("recipe_id")
+
+    ingredient   Ingredient? @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+    ingredientId String?     @map("ingredient_id")
+
+    orderItems OrderItem[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@unique([recipeId, ingredientId])
+    @@map("recipe_ingredients")
+}
+
+model RecipeStep {
+    id String @id @default(cuid())
+
+    title       String
+    order       Int
+    description String
+
+    recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+    recipeId String @map("recipe_id")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("recipe_steps")
 }
 
 enum Tags {
