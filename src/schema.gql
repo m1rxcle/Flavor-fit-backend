@@ -1,0 +1,185 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Уровень активности"""
+enum ActivityLevel {
+  """Активный"""
+  ACTIVE
+
+  """Легкий"""
+  LIGHT
+
+  """Средний"""
+  MODERATE
+
+  """Сидячий"""
+  SEDENTARY
+
+  """Очень активный"""
+  VERY_ACTIVE
+}
+
+type AuthResponse {
+  """Access token"""
+  accessToken: String!
+
+  """User profile"""
+  user: UserProfileModel!
+}
+
+"""Модель измерений тела пользователя"""
+type BodyMeasurementsModel {
+  """Уровень активности пользователя"""
+  activityLevel: ActivityLevel
+
+  """Обхват рук пользователя"""
+  armCm: String
+
+  """Обхват груди пользователя"""
+  chestCm: String
+
+  """Дата создания модели"""
+  createdAt: DateTime!
+
+  """Целевой вес пользователя"""
+  goalWeightKg: String
+
+  """Рост пользователя"""
+  heightCm: String
+
+  """Уникальный идентификатор модели"""
+  id: ID!
+
+  """Цель питания пользователя"""
+  nutritionalGoal: NutritionalGoals
+
+  """Обхват бедер пользователя"""
+  thighCm: String
+
+  """Дата обновления модели"""
+  updatedAt: DateTime!
+
+  """Уникальный идентификатор пользователя"""
+  userId: String!
+
+  """Обхват талии пользователя"""
+  waistCm: String
+
+  """Вес пользователя"""
+  weightKg: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""Гендеры пользователей"""
+enum Genders {
+  """Женский"""
+  FEMALE
+
+  """Мужской"""
+  MALE
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  login(data: LoginInput!): AuthResponse!
+  logout: Boolean!
+  refresh: AuthResponse!
+  register(data: RegisterInput!): AuthResponse!
+}
+
+"""Цели питания"""
+enum NutritionalGoals {
+  """Поддержание веса"""
+  MAINTENANCE
+
+  """Набор мышечного массы"""
+  MUSCLE_GAIN
+
+  """Снижение веса"""
+  WEIGHT_LOSS
+}
+
+"""Модель профиля пользователя"""
+type ProfileModel {
+  """Возраст пользователя"""
+  age: Int
+
+  """Биография пользователя"""
+  bio: String
+
+  """Дата создания профиля"""
+  createdAt: DateTime!
+
+  """Полное имя пользователя"""
+  fullName: String!
+
+  """Пол пользователя"""
+  gender: Genders
+
+  """Уникальный идентификатор профиля"""
+  id: ID!
+
+  """Ссылка на картинку профиля"""
+  imageUrl: String
+
+  """Ссылки на сайты пользователя"""
+  sites: [String!]
+
+  """Дата обновления профиля"""
+  updatedAt: DateTime!
+}
+
+type Query {
+  """Получить всех пользователей"""
+  getAllUsers: [UserProfileModel!]!
+
+  """Получить пользователя по id"""
+  profile: UserProfileModel!
+}
+
+input RegisterInput {
+  email: String!
+  fullName: String!
+  password: String!
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+"""Модель пользователя"""
+type UserProfileModel {
+  """Дата создания пользователя"""
+  createdAt: DateTime!
+
+  """Почта пользователя"""
+  email: String!
+
+  """Полное имя пользователя"""
+  fullName: String!
+
+  """Уникальный идентификатор пользователя"""
+  id: ID!
+
+  """Модель измерений тела"""
+  measurements: BodyMeasurementsModel
+
+  """Профиль пользователя"""
+  profile: ProfileModel
+
+  """Роль пользователя"""
+  role: Role!
+
+  """Дата обновления пользователя"""
+  updatedAt: DateTime!
+}

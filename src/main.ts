@@ -1,9 +1,35 @@
+import {
+    ConsoleLogger,
+    INestApplication,
+    ValidationPipe,
+} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
+
 import { AppModule } from './app.module';
+import { validationPipeConfig } from './config';
+
 import 'dotenv';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
-    await app.listen(process.env.PORT!);
+    const app = await NestFactory.create<INestApplication>(AppModule, {
+        logger: new ConsoleLogger({
+            prefix: 'MIRA.backend',
+        }),
+    });
+
+    const config = app.get(ConfigService);
+
+    app.use(cookieParser());
+    app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
+
+    app.enableCors({
+        origin: config.getOrThrow<string>('CORS_ORIGIN'),
+        credentials: true,
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    });
+
+    await app.listen(config.getOrThrow<number>('PORT'));
 }
 bootstrap();
