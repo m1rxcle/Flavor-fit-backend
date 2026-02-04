@@ -5,6 +5,11 @@ model User {
     email    String @unique
     password String
 
+    isTwoFactorEnabled Boolean @default(false) @map("is_two_factor_enabled")
+    isVerified         Boolean @default(false) @map("is_verified")
+
+    tokens Token[]
+
     role Role @default(USER)
 
     recipes  Recipe[]
@@ -12,14 +17,32 @@ model User {
     likes    Like[]
     orders   Order[]
 
-    profiles     Profile?
-    measurements BodyMeasurements?
+    profile           Profile?
+    measurements      BodyMeasurements?
+    userSecurityEvent userSecurityEvent[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
     @@index(fields: [email], type: Hash)
     @@map("users")
+}
+
+model Token {
+    id String @id @default(cuid())
+
+    email     String
+    token     String    @unique
+    type      TokenType
+    expiresIn DateTime  @map("expires_in")
+
+    user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String? @map("user_id")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("tokens")
 }
 
 model BodyMeasurements {
@@ -34,8 +57,8 @@ model BodyMeasurements {
     thighCm String? @map("thigh_cm")
     armCm   String? @map("arm_cm")
 
-    activityLevel   ActivityLevel    @map("activity_level")
-    nutritionalGoal NutritionalGoals @map("nutritional_goal")
+    activityLevel   ActivityLevel?    @map("activity_level")
+    nutritionalGoal NutritionalGoals? @map("nutritional_goal")
 
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @unique @map("user_id")
@@ -46,10 +69,51 @@ model BodyMeasurements {
     @@map("body_measurements")
 }
 
+model userSecurityEvent {
+    id String @id @default(cuid())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @map("user_id")
+
+    type SecurityEventType @map("security_event_type")
+
+    ip        String
+    userAgent String @map("user_agent")
+
+    lat        Decimal?
+    lon        Decimal?
+    country    String?
+    city       String?
+    deviceType String?  @map("device_type")
+    os         String?
+    browser    String?
+
+    createdAt DateTime @default(now()) @map("created_at")
+
+    @@index([userId, createdAt])
+    @@index([type])
+    @@map("user_security_events")
+}
+
+enum SecurityEventType {
+    LOGIN
+    PASSWORD_CHANGE
+}
+
+enum TokenType {
+    VERIFICATION
+    TWO_FACTOR
+    PASSWORD_RESET
+
+    @@map("token_type")
+}
+
 enum NutritionalGoals {
     WEIGHT_LOSS
     MAINTENANCE
     MUSCLE_GAIN
+
+    @@map("nutritional_goal")
 }
 
 enum ActivityLevel {
@@ -58,6 +122,8 @@ enum ActivityLevel {
     MODERATE
     ACTIVE
     VERY_ACTIVE
+
+    @@map("activity_level")
 }
 
 enum Role {

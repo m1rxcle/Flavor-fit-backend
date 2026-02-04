@@ -7,18 +7,22 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from 'argon2';
-import { Role } from 'prisma/generated/prisma/enums';
 
-import { IsDev, ms } from 'src/common/utils';
+import type { User } from 'prisma/generated/prisma/client';
+import { Role, TokenType } from 'prisma/generated/prisma/enums';
+
+import type { UserMetadata } from 'src/common/interfaces';
+import { getMetadata, IsDev, ms } from 'src/common/utils';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
 
-import { LoginInput, RegisterInput } from './inputs';
+import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
+import { TwoFactorService } from './two-factor/two-factor.service';
 
+import type { LoginInput, RegisterInput } from './inputs';
 import type { JwtPayload } from './interfaces';
 import type { Request, Response } from 'express';
 import type { StringValue } from 'ms';
-import type { User } from 'prisma/generated/prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -30,6 +34,8 @@ export class AuthService {
         private readonly jwtService: JwtService,
         private readonly userService: UsersService,
         private readonly configService: ConfigService,
+        private readonly emailConfirmationService: EmailConfirmationService,
+        private readonly twoFactorService: TwoFactorService,
     ) {
         this.JWT_ACCESS_TOKEN_TTL = this.configService.getOrThrow<StringValue>(
             'JWT_ACCESS_TOKEN_TTL',
@@ -62,11 +68,19 @@ export class AuthService {
             },
         });
 
+        await this.emailConfirmationService.sendVerificationToken(newUser);
+
         return this.auth(res, newUser);
     }
 
-    async login(res: Response, input: LoginInput) {
-        const { email, password } = input;
+    async login(
+        req: Request,
+        res: Response,
+        input: LoginInput,
+        userAgent: string,
+    ) {
+        const { email, password, token } = input;
+        const userMetadata: UserMetadata = getMetadata(req, userAgent);
 
         const existedUser = await this.userService.findByEmail(email);
 
@@ -79,6 +93,71 @@ export class AuthService {
         if (!isValidPassword) {
             throw new NotFoundException('Пользователь не найден');
         }
+
+        if (!existedUser.isVerified) {
+            await this.emailConfirmationService.sendVerificationToken(
+                existedUser,
+            );
+            throw new UnauthorizedException(
+                'Ваш email не подтвержден. Пожалуйста, проверьте вашу почту и подтвердите ваш аккаунт.',
+            );
+        }
+
+        if (existedUser.isTwoFactorEnabled) {
+            if (!token) {
+                await this.twoFactorService.sendTwoFactorToken(
+                    existedUser,
+                    userMetadata,
+                );
+
+                return { message: 'Необходим код двухфакторной авторизации' };
+            }
+            const twoFactorToken = await this.prismaService.token.findFirst({
+                where: {
+                    userId: existedUser.id,
+                    type: TokenType.TWO_FACTOR,
+                },
+            });
+
+            if (!twoFactorToken) {
+                return {
+                    message: 'Необходим код двухфакторной авторизации',
+                };
+            }
+
+            const isValid = token === twoFactorToken.token;
+
+            if (!isValid) {
+                throw new UnauthorizedException(
+                    'Ваш код не верен, пожалуйста убедитесь что у вас правильный код!',
+                );
+            }
+
+            await this.prismaService.token.deleteMany({
+                where: {
+                    userId: existedUser.id,
+                    type: TokenType.TWO_FACTOR,
+                },
+            });
+        }
+
+        const { device, ip, location } = userMetadata;
+
+        await this.prismaService.userSecurityEvent.create({
+            data: {
+                userId: existedUser.id,
+                ip: ip,
+                userAgent,
+                type: 'LOGIN',
+                country: location.country,
+                os: device.os,
+                browser: device.browser,
+                lat: location.latitude,
+                lon: location.longitude,
+                city: location.city,
+                deviceType: device.type,
+            },
+        });
 
         return this.auth(res, existedUser);
     }

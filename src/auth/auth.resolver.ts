@@ -1,17 +1,18 @@
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 
+import type { GraphQLContext } from 'src/common/interfaces';
+
 import { AuthService } from './auth.service';
+import { UserAgent } from './decorators/user-agent.decorator';
 import { LoginInput, RegisterInput } from './inputs';
 import { AuthResponse } from './models';
-
-import type { GraphQLContext } from 'src/common/interfaces';
 
 @Resolver()
 export class AuthResolver {
     constructor(private readonly authService: AuthService) {}
 
     @Mutation(() => AuthResponse)
-    async register(
+    register(
         @Context() { res }: GraphQLContext,
         @Args({ name: 'data', type: () => RegisterInput }) input: RegisterInput,
     ) {
@@ -19,20 +20,21 @@ export class AuthResolver {
     }
 
     @Mutation(() => AuthResponse)
-    async login(
-        @Context() { res }: GraphQLContext,
+    login(
+        @Context() { req, res }: GraphQLContext,
         @Args({ name: 'data', type: () => LoginInput }) input: LoginInput,
+        @UserAgent() userAgent: string,
     ) {
-        return this.authService.login(res, input);
+        return this.authService.login(req, res, input, userAgent);
     }
 
     @Mutation(() => Boolean)
-    async logout(@Context() { res }: GraphQLContext) {
+    logout(@Context() { res }: GraphQLContext) {
         return this.authService.logout(res);
     }
 
     @Mutation(() => AuthResponse)
-    async refresh(@Context() { req, res }: GraphQLContext) {
+    refresh(@Context() { req, res }: GraphQLContext) {
         return this.authService.refresh(req, res);
     }
 }

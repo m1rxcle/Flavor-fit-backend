@@ -22,10 +22,43 @@ enum ActivityLevel {
 
 type AuthResponse {
   """Access token"""
-  accessToken: String!
+  accessToken: String
 
-  """User profile"""
-  user: UserProfileModel!
+  """Кастомное сообщение"""
+  message: String
+
+  """Профиль пользователя"""
+  user: UserProfileModel
+}
+
+"""Модель измерений пользователя которые можно изменить"""
+input BodyMeasurementInput {
+  """Уровень активности пользователя"""
+  activityLevel: ActivityLevel
+
+  """Обхват рук пользователя"""
+  armCm: String
+
+  """Обхват груди пользователя"""
+  chestCm: String
+
+  """Целевой вес пользователя"""
+  goalWeightKg: String
+
+  """Рост пользователя"""
+  heightCm: String
+
+  """Цель питания пользователя"""
+  nutritionalGoal: NutritionalGoals
+
+  """Обхват бедер пользователя"""
+  thighCm: String
+
+  """Обхват талии пользователя"""
+  waistCm: String
+
+  """Вес пользователя"""
+  weightKg: String
 }
 
 """Модель измерений тела пользователя"""
@@ -70,6 +103,19 @@ type BodyMeasurementsModel {
   weightKg: String
 }
 
+input ChangeEmailInput {
+  newEmail: String!
+}
+
+input ChangePasswordInput {
+  newPassword: String!
+  oldPassword: String!
+}
+
+input ConfirmationInput {
+  token: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -84,16 +130,69 @@ enum Genders {
   MALE
 }
 
+"""Ингредиент"""
+input IngredientInput {
+  """Единица измерения"""
+  defaultUnit: Unit!
+
+  """Название ингредиента"""
+  title: String!
+}
+
+type IngredientModel {
+  """Дата создания ингредиента"""
+  createdAt: DateTime!
+
+  """Единица измерения"""
+  defaultUnit: Unit!
+
+  """ID ингредиента"""
+  id: ID!
+
+  """Название ингредиента"""
+  title: String!
+
+  """Дата обновления ингредиента"""
+  updatedAt: DateTime!
+}
+
+"""Обновление ингредиента"""
+input IngredientUpdateInput {
+  """Единица измерения"""
+  defaultUnit: Unit
+
+  """Название ингредиента"""
+  title: String
+}
+
 input LoginInput {
   email: String!
   password: String!
+  token: String
 }
 
 type Mutation {
+  changeEmail(data: ChangeEmailInput!): Boolean!
+  changePassword(data: ChangePasswordInput!): Boolean!
+  createIngredient(data: IngredientInput!): IngredientModel!
+  deleteIngredient(id: String!): Boolean!
+  disableTwoFactor: Boolean!
+  enableTwoFactor: Boolean!
   login(data: LoginInput!): AuthResponse!
   logout: Boolean!
+  newPassword(data: NewPasswordInput!): Boolean!
   refresh: AuthResponse!
   register(data: RegisterInput!): AuthResponse!
+  resetPassword(data: RecoveryInput!): Boolean!
+  updateIngredient(data: IngredientUpdateInput!, id: String!): IngredientModel!
+  updateProfile(data: UserUpdateInput!): UserProfileModel!
+  verifyEmail(data: ConfirmationInput!): Boolean!
+}
+
+input NewPasswordInput {
+  confirmPassword: String!
+  newPassword: String!
+  token: String!
 }
 
 """Цели питания"""
@@ -108,6 +207,27 @@ enum NutritionalGoals {
   WEIGHT_LOSS
 }
 
+"""Данные профиля пользователя которые можно изменить"""
+input ProfileInput {
+  """Возраст пользователя"""
+  age: Int
+
+  """Биография пользователя"""
+  bio: String
+
+  """Полное имя пользователя"""
+  fullName: String
+
+  """Пол пользователя"""
+  gender: Genders
+
+  """Ссылка на картинку профиля"""
+  imageUrl: String
+
+  """Ссылки на сайты пользователя"""
+  sites: [String!]
+}
+
 """Модель профиля пользователя"""
 type ProfileModel {
   """Возраст пользователя"""
@@ -120,10 +240,10 @@ type ProfileModel {
   createdAt: DateTime!
 
   """Полное имя пользователя"""
-  fullName: String!
+  fullName: String
 
   """Пол пользователя"""
-  gender: Genders
+  gender: Genders!
 
   """Уникальный идентификатор профиля"""
   id: ID!
@@ -139,11 +259,18 @@ type ProfileModel {
 }
 
 type Query {
+  getAllIngredients: [IngredientModel!]!
+
   """Получить всех пользователей"""
   getAllUsers: [UserProfileModel!]!
+  getIngredientById(id: String!): IngredientModel!
 
   """Получить пользователя по id"""
   profile: UserProfileModel!
+}
+
+input RecoveryInput {
+  email: String!
 }
 
 input RegisterInput {
@@ -152,9 +279,37 @@ input RegisterInput {
   password: String!
 }
 
+"""Роли пользователей"""
 enum Role {
+  """Администратор с полным доступом"""
   ADMIN
+
+  """Обычный пользователь"""
   USER
+}
+
+"""Единица измерения"""
+enum Unit {
+  """Дольки"""
+  CLOVES
+
+  """Чашка"""
+  CUP
+
+  """Грамм"""
+  GRAM
+
+  """Миллилитр"""
+  MILLILITER
+
+  """Кусок"""
+  PIECE
+
+  """Столовая ложка"""
+  TABLESPOON
+
+  """Чайная ложка"""
+  TEASPOON
 }
 
 """Модель пользователя"""
@@ -171,6 +326,12 @@ type UserProfileModel {
   """Уникальный идентификатор пользователя"""
   id: ID!
 
+  """Включен ли двухфакторная аутентификация"""
+  isTwoFactorEnabled: Boolean
+
+  """Верифицирован ли пользователь"""
+  isVerified: Boolean
+
   """Модель измерений тела"""
   measurements: BodyMeasurementsModel
 
@@ -182,4 +343,19 @@ type UserProfileModel {
 
   """Дата обновления пользователя"""
   updatedAt: DateTime!
+}
+
+"""Данные пользователя которые могут быть изменены"""
+input UserUpdateInput {
+  """Почта пользователя"""
+  email: String
+
+  """Полное имя пользователя"""
+  fullName: String
+
+  """Модель измерений тела"""
+  measurements: BodyMeasurementInput
+
+  """Профиль пользователя"""
+  profile: ProfileInput
 }

@@ -395,7 +395,9 @@ export const ModelName = {
   RecipeIngredient: 'RecipeIngredient',
   RecipeStep: 'RecipeStep',
   User: 'User',
-  BodyMeasurements: 'BodyMeasurements'
+  Token: 'Token',
+  BodyMeasurements: 'BodyMeasurements',
+  userSecurityEvent: 'userSecurityEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -411,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "ingredient" | "order" | "orderItem" | "courier" | "profile" | "like" | "comment" | "recipe" | "recipeIngredient" | "recipeStep" | "user" | "bodyMeasurements"
+    modelProps: "ingredient" | "order" | "orderItem" | "courier" | "profile" | "like" | "comment" | "recipe" | "recipeIngredient" | "recipeStep" | "user" | "token" | "bodyMeasurements" | "userSecurityEvent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1229,6 +1231,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Token: {
+      payload: Prisma.$TokenPayload<ExtArgs>
+      fields: Prisma.TokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>
+        }
+        findFirst: {
+          args: Prisma.TokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>
+        }
+        findMany: {
+          args: Prisma.TokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>[]
+        }
+        create: {
+          args: Prisma.TokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>
+        }
+        createMany: {
+          args: Prisma.TokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>[]
+        }
+        delete: {
+          args: Prisma.TokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>
+        }
+        update: {
+          args: Prisma.TokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.TokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.TokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenPayload>
+        }
+        aggregate: {
+          args: Prisma.TokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateToken>
+        }
+        groupBy: {
+          args: Prisma.TokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TokenCountAggregateOutputType> | number
+        }
+      }
+    }
     BodyMeasurements: {
       payload: Prisma.$BodyMeasurementsPayload<ExtArgs>
       fields: Prisma.BodyMeasurementsFieldRefs
@@ -1300,6 +1376,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.BodyMeasurementsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.BodyMeasurementsCountAggregateOutputType> | number
+        }
+      }
+    }
+    userSecurityEvent: {
+      payload: Prisma.$userSecurityEventPayload<ExtArgs>
+      fields: Prisma.userSecurityEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.userSecurityEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.userSecurityEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>
+        }
+        findFirst: {
+          args: Prisma.userSecurityEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.userSecurityEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>
+        }
+        findMany: {
+          args: Prisma.userSecurityEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>[]
+        }
+        create: {
+          args: Prisma.userSecurityEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>
+        }
+        createMany: {
+          args: Prisma.userSecurityEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.userSecurityEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>[]
+        }
+        delete: {
+          args: Prisma.userSecurityEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>
+        }
+        update: {
+          args: Prisma.userSecurityEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.userSecurityEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.userSecurityEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.userSecurityEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.userSecurityEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userSecurityEventPayload>
+        }
+        aggregate: {
+          args: Prisma.UserSecurityEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserSecurityEvent>
+        }
+        groupBy: {
+          args: Prisma.userSecurityEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserSecurityEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.userSecurityEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserSecurityEventCountAggregateOutputType> | number
         }
       }
     }
@@ -1478,12 +1628,28 @@ export const UserScalarFieldEnum = {
   fullName: 'fullName',
   email: 'email',
   password: 'password',
+  isTwoFactorEnabled: 'isTwoFactorEnabled',
+  isVerified: 'isVerified',
   role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const TokenScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  type: 'type',
+  expiresIn: 'expiresIn',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof TokenScalarFieldEnum]
 
 
 export const BodyMeasurementsScalarFieldEnum = {
@@ -1503,6 +1669,25 @@ export const BodyMeasurementsScalarFieldEnum = {
 } as const
 
 export type BodyMeasurementsScalarFieldEnum = (typeof BodyMeasurementsScalarFieldEnum)[keyof typeof BodyMeasurementsScalarFieldEnum]
+
+
+export const UserSecurityEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  ip: 'ip',
+  userAgent: 'userAgent',
+  lat: 'lat',
+  lon: 'lon',
+  country: 'country',
+  city: 'city',
+  deviceType: 'deviceType',
+  os: 'os',
+  browser: 'browser',
+  createdAt: 'createdAt'
+} as const
+
+export type UserSecurityEventScalarFieldEnum = (typeof UserSecurityEventScalarFieldEnum)[keyof typeof UserSecurityEventScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1662,16 +1847,23 @@ export type EnumCPFCFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
 
 
 /**
- * Reference to a field of type 'Decimal'
+ * Reference to a field of type 'Float'
  */
-export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
 /**
- * Reference to a field of type 'Decimal[]'
+ * Reference to a field of type 'Float[]'
  */
-export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1686,6 +1878,20 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Role[]'
  */
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TokenType'
+ */
+export type EnumTokenTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TokenType'>
+    
+
+
+/**
+ * Reference to a field of type 'TokenType[]'
+ */
+export type ListEnumTokenTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TokenType[]'>
     
 
 
@@ -1718,16 +1924,30 @@ export type ListEnumNutritionalGoalsFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
- * Reference to a field of type 'Float'
+ * Reference to a field of type 'SecurityEventType'
  */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+export type EnumSecurityEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SecurityEventType'>
     
 
 
 /**
- * Reference to a field of type 'Float[]'
+ * Reference to a field of type 'SecurityEventType[]'
  */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+export type ListEnumSecurityEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SecurityEventType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 /**
@@ -1836,7 +2056,9 @@ export type GlobalOmitConfig = {
   recipeIngredient?: Prisma.RecipeIngredientOmit
   recipeStep?: Prisma.RecipeStepOmit
   user?: Prisma.UserOmit
+  token?: Prisma.TokenOmit
   bodyMeasurements?: Prisma.BodyMeasurementsOmit
+  userSecurityEvent?: Prisma.userSecurityEventOmit
 }
 
 /* Types for Logging */

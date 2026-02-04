@@ -4,7 +4,7 @@ model Ingredient {
     title       String
     defaultUnit Unit   @map("default_unit")
 
-    recipes RecipeIngredient[]
+    recipesIngredients RecipeIngredient[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")

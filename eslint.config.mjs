@@ -30,10 +30,11 @@ export default tseslint.config(
             import: importPlugin,
         },
         settings: {
-            'import/internal-regex': '^src/',
+            'import/internal-regex': '^(src|prisma/generated/)',
         },
 
         rules: {
+            '@typescript-eslint/no-require-imports': 'off',
             '@typescript-eslint/no-explicit-any': 'off',
             '@typescript-eslint/no-unsafe-call': 'off',
             '@typescript-eslint/require-await': 'off',
@@ -55,11 +56,21 @@ export default tseslint.config(
                         'object',
                         'type',
                     ],
+                    pathGroups: [
+                        {
+                            pattern: 'prisma/generated/**',
+                            group: 'internal',
+                            position: 'after',
+                        },
+                        {
+                            pattern: 'src/**',
+                            group: 'internal',
+                            position: 'after',
+                        },
+                    ],
+                    pathGroupsExcludedImportTypes: ['builtin', 'external'],
                     'newlines-between': 'always',
-                    alphabetize: {
-                        order: 'asc',
-                        caseInsensitive: true,
-                    },
+                    alphabetize: { order: 'asc', caseInsensitive: true },
                 },
             ],
         },

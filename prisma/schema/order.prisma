@@ -44,4 +44,6 @@ enum OrderStatus {
     PROCESSING
     COMPLETED
     CANCELED
+
+    @@map("order_status")
 }

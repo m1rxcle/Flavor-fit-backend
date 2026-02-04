@@ -70,6 +70,23 @@ export const Difficulty = {
 export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty]
 
 
+export const SecurityEventType = {
+  LOGIN: 'LOGIN',
+  PASSWORD_CHANGE: 'PASSWORD_CHANGE'
+} as const
+
+export type SecurityEventType = (typeof SecurityEventType)[keyof typeof SecurityEventType]
+
+
+export const TokenType = {
+  VERIFICATION: 'VERIFICATION',
+  TWO_FACTOR: 'TWO_FACTOR',
+  PASSWORD_RESET: 'PASSWORD_RESET'
+} as const
+
+export type TokenType = (typeof TokenType)[keyof typeof TokenType]
+
+
 export const NutritionalGoals = {
   WEIGHT_LOSS: 'WEIGHT_LOSS',
   MAINTENANCE: 'MAINTENANCE',

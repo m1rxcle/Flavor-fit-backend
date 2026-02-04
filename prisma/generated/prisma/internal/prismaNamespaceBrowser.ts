@@ -62,7 +62,9 @@ export const ModelName = {
   RecipeIngredient: 'RecipeIngredient',
   RecipeStep: 'RecipeStep',
   User: 'User',
-  BodyMeasurements: 'BodyMeasurements'
+  Token: 'Token',
+  BodyMeasurements: 'BodyMeasurements',
+  userSecurityEvent: 'userSecurityEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -217,12 +219,28 @@ export const UserScalarFieldEnum = {
   fullName: 'fullName',
   email: 'email',
   password: 'password',
+  isTwoFactorEnabled: 'isTwoFactorEnabled',
+  isVerified: 'isVerified',
   role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const TokenScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  type: 'type',
+  expiresIn: 'expiresIn',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof TokenScalarFieldEnum]
 
 
 export const BodyMeasurementsScalarFieldEnum = {
@@ -242,6 +260,25 @@ export const BodyMeasurementsScalarFieldEnum = {
 } as const
 
 export type BodyMeasurementsScalarFieldEnum = (typeof BodyMeasurementsScalarFieldEnum)[keyof typeof BodyMeasurementsScalarFieldEnum]
+
+
+export const UserSecurityEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  ip: 'ip',
+  userAgent: 'userAgent',
+  lat: 'lat',
+  lon: 'lon',
+  country: 'country',
+  city: 'city',
+  deviceType: 'deviceType',
+  os: 'os',
+  browser: 'browser',
+  createdAt: 'createdAt'
+} as const
+
+export type UserSecurityEventScalarFieldEnum = (typeof UserSecurityEventScalarFieldEnum)[keyof typeof UserSecurityEventScalarFieldEnum]
 
 
 export const SortOrder = {

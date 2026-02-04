@@ -1,19 +1,18 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { GraphQLModule, registerEnumType } from '@nestjs/graphql';
-import { Role } from 'prisma/generated/prisma/enums';
+import { GraphQLModule } from '@nestjs/graphql';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { getGraphQLConfig } from './config';
+import { CronModule } from './cron/cron.module';
+import { MailModule } from './mail/mail.module';
 import { OrdersModule } from './orders/orders.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { UsersModule } from './users/users.module';
-
-registerEnumType(Role, { name: 'Role' });
 
 @Module({
     imports: [
@@ -32,6 +31,8 @@ registerEnumType(Role, { name: 'Role' });
             useFactory: getGraphQLConfig,
             inject: [ConfigService],
         }),
+        MailModule,
+        CronModule,
     ],
     controllers: [AppController],
     providers: [AppService],

@@ -1,7 +1,7 @@
 model Profile {
     id String @id @default(cuid())
 
-    fullName String  @map("full_name")
+    fullName String? @map("full_name")
     bio      String?
     imageUrl String? @map("image_url")
     age      Int?

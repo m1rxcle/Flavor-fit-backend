@@ -29,9 +29,9 @@ model RecipeIngredient {
     name        String
     description String
     iconUrl     String? @map("icon_url")
-    quantity    Decimal
+    quantity    Float
     unit        Unit
-    price       Decimal
+    price       String
 
     recipe   Recipe? @relation(fields: [recipeId], references: [id], onDelete: Cascade)
     recipeId String? @map("recipe_id")

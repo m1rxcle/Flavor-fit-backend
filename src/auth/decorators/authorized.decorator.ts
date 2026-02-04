@@ -1,6 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { User } from 'prisma/generated/prisma/client';
+
+import type { User } from 'prisma/generated/prisma/client';
 
 import type { GraphQLContext } from 'src/common/interfaces';
 

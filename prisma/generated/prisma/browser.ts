@@ -73,7 +73,17 @@ export type RecipeStep = Prisma.RecipeStepModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model Token
+ * 
+ */
+export type Token = Prisma.TokenModel
+/**
  * Model BodyMeasurements
  * 
  */
 export type BodyMeasurements = Prisma.BodyMeasurementsModel
+/**
+ * Model userSecurityEvent
+ * 
+ */
+export type userSecurityEvent = Prisma.userSecurityEventModel
