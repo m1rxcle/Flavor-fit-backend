@@ -1,11 +1,12 @@
 import DeviceDetector = require('device-detector-js');
 import { lookup } from 'geoip-lite';
 import * as countries from 'i18n-iso-countries';
+import enLocale from 'i18n-iso-countries/langs/en.json';
 
 import type { UserMetadata } from '../interfaces';
 import type { Request } from 'express';
 
-countries.registerLocale(require('i18n-iso-countries/langs/en.json'));
+countries.registerLocale(enLocale);
 
 export const getMetadata = (req: Request, userAgent: string): UserMetadata => {
     const ip =
