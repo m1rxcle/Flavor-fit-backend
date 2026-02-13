@@ -12,6 +12,7 @@ import { MailModule } from './mail/mail.module';
 import { OrdersModule } from './orders/orders.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { RecipesModule } from './recipes/recipes.module';
+import { TelegramModule } from './telegram/telegram.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -33,6 +34,7 @@ import { UsersModule } from './users/users.module';
         }),
         MailModule,
         CronModule,
+        TelegramModule,
     ],
     controllers: [AppController],
     providers: [AppService],

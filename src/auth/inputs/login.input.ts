@@ -14,7 +14,7 @@ export class LoginInput {
     @IsString({ message: 'Поле email должно быть строкой' })
     @IsNotEmpty({ message: 'Поле email обязательно' })
     @IsEmail({}, { message: 'Поле email некорректно' })
-    email: string;
+    email!: string;
 
     @Field(() => String)
     @IsString({ message: 'Пароль должен быть строкой' })
@@ -22,7 +22,7 @@ export class LoginInput {
     @MinLength(6, {
         message: 'Пароль должен быть не менее 6 символов',
     })
-    password: string;
+    password!: string;
 
     @Field(() => String, { nullable: true })
     @IsString({ message: 'Токен должен быть строкой' })

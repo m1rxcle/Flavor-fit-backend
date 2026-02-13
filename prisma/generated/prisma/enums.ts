@@ -9,19 +9,6 @@
 * 🟢 You can import this file directly.
 */
 
-export const Unit = {
-  GRAM: 'GRAM',
-  MILLILITER: 'MILLILITER',
-  PIECE: 'PIECE',
-  TEASPOON: 'TEASPOON',
-  TABLESPOON: 'TABLESPOON',
-  CLOVES: 'CLOVES',
-  CUP: 'CUP'
-} as const
-
-export type Unit = (typeof Unit)[keyof typeof Unit]
-
-
 export const OrderStatus = {
   PENDING: 'PENDING',
   PROCESSING: 'PROCESSING',
@@ -40,27 +27,6 @@ export const Genders = {
 export type Genders = (typeof Genders)[keyof typeof Genders]
 
 
-export const Tags = {
-  COMFORT_FOOD: 'COMFORT_FOOD',
-  QUICK_MEAL: 'QUICK_MEAL',
-  HEALTHY: 'HEALTHY',
-  EASY_TO_MAKE: 'EASY_TO_MAKE',
-  VEGETARIAN: 'VEGETARIAN'
-} as const
-
-export type Tags = (typeof Tags)[keyof typeof Tags]
-
-
-export const CPFC = {
-  PROTEIN: 'PROTEIN',
-  CARBOHYDRATES: 'CARBOHYDRATES',
-  FATS: 'FATS',
-  FIBER: 'FIBER'
-} as const
-
-export type CPFC = (typeof CPFC)[keyof typeof CPFC]
-
-
 export const Difficulty = {
   EASY: 'EASY',
   MEDIUM: 'MEDIUM',
@@ -68,6 +34,19 @@ export const Difficulty = {
 } as const
 
 export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty]
+
+
+export const Unit = {
+  GRAM: 'GRAM',
+  MILLILITER: 'MILLILITER',
+  PIECE: 'PIECE',
+  TEASPOON: 'TEASPOON',
+  TABLESPOON: 'TABLESPOON',
+  CLOVES: 'CLOVES',
+  CUP: 'CUP'
+} as const
+
+export type Unit = (typeof Unit)[keyof typeof Unit]
 
 
 export const SecurityEventType = {

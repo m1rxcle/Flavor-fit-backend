@@ -20,7 +20,7 @@ export class UserUpdateInput {
         description: 'Почта пользователя',
         nullable: true,
     })
-    email: string;
+    email?: string | undefined;
     @IsString({ message: 'Полное имя должно быть строкой' })
     @IsOptional({ message: 'Полное имя не обязательно' })
     @MinLength(2, { message: 'Полное имя должно быть не менее 2 символов' })
@@ -28,7 +28,7 @@ export class UserUpdateInput {
         description: 'Полное имя пользователя',
         nullable: true,
     })
-    fullName: string;
+    fullName?: string | undefined;
     @ValidateNested()
     @Type(() => ProfileInput)
     @IsOptional({ message: 'Поле profile не обязательно' })
@@ -36,7 +36,7 @@ export class UserUpdateInput {
         description: 'Профиль пользователя',
         nullable: true,
     })
-    profile?: ProfileInput;
+    profile?: ProfileInput | undefined;
     @ValidateNested()
     @Type(() => BodyMeasurementInput)
     @IsOptional({ message: 'Поле profile не обязательно' })
@@ -44,5 +44,5 @@ export class UserUpdateInput {
         description: 'Модель измерений тела',
         nullable: true,
     })
-    measurements?: BodyMeasurementInput;
+    measurements?: BodyMeasurementInput | undefined;
 }

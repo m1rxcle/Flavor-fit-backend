@@ -7,5 +7,5 @@ export class ChangeEmailInput {
     @IsNotEmpty({ message: 'Поле email обязательно' })
     @IsString({ message: 'Поле email должно быть строкой' })
     @IsEmail({}, { message: 'Поле email некорректно' })
-    newEmail: string;
+    newEmail!: string;
 }

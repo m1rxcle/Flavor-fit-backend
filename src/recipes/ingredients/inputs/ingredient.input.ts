@@ -1,48 +1,30 @@
-import { Field, InputType, registerEnumType } from '@nestjs/graphql';
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-
-import { Ingredient, Unit } from 'prisma/generated/prisma/client';
-
-registerEnumType(Unit, {
-    description: 'Единица измерения',
-    name: 'Unit',
-    valuesMap: {
-        CLOVES: {
-            description: 'Дольки',
-        },
-        CUP: {
-            description: 'Чашка',
-        },
-        GRAM: {
-            description: 'Грамм',
-        },
-        MILLILITER: {
-            description: 'Миллилитр',
-        },
-        PIECE: {
-            description: 'Кусок/Штука',
-        },
-        TABLESPOON: {
-            description: 'Столовая ложка',
-        },
-        TEASPOON: {
-            description: 'Чайная ложка',
-        },
-    },
-});
+import { Field, InputType } from '@nestjs/graphql';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 @InputType({ description: 'Ингредиент' })
-export class IngredientInput implements Partial<Ingredient> {
+export class IngredientInput {
     @IsString({ message: 'Название ингредиента должно быть строкой' })
     @IsNotEmpty({ message: 'Название ингредиента обязательно' })
     @Field(() => String, {
         description: 'Название ингредиента',
     })
-    title: string;
-    @IsEnum(Unit, { message: 'Единица измерения должна быть выбрана' })
+    title!: string;
+    @IsString({ message: 'Единица измерения должна быть строкой' })
     @IsNotEmpty({ message: 'Единица измерения обязательна' })
-    @Field(() => Unit, {
+    @Field(() => String, {
         description: 'Единица измерения',
     })
-    defaultUnit: Unit;
+    description!: string;
+
+    @IsString({ message: 'Ссылка на картинку ингредиента должна быть строкой' })
+    @IsNotEmpty({ message: 'Ссылка на картинку ингредиента обязательна' })
+    @Field(() => String, {
+        description: 'Ссылка на картинку ингредиента',
+    })
+    iconUrl!: string;
+
+    @IsNotEmpty({ message: 'Цена ингредиента обязательна' })
+    @IsNumber({}, { message: 'Цена ингредиента должна быть числом' })
+    @Field(() => Number, { description: 'Цена ингредиента' })
+    price!: number;
 }

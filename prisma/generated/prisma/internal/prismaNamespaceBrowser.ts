@@ -58,9 +58,12 @@ export const ModelName = {
   Profile: 'Profile',
   Like: 'Like',
   Comment: 'Comment',
+  View: 'View',
   Recipe: 'Recipe',
   RecipeIngredient: 'RecipeIngredient',
   RecipeStep: 'RecipeStep',
+  NutritionFact: 'NutritionFact',
+  RecipeTag: 'RecipeTag',
   User: 'User',
   Token: 'Token',
   BodyMeasurements: 'BodyMeasurements',
@@ -86,7 +89,9 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const IngredientScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  defaultUnit: 'defaultUnit',
+  iconUrl: 'iconUrl',
+  description: 'description',
+  price: 'price',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -98,6 +103,7 @@ export const OrderScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   status: 'status',
+  totalAmount: 'totalAmount',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -109,7 +115,11 @@ export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof Or
 export const OrderItemScalarFieldEnum = {
   id: 'id',
   quantity: 'quantity',
-  recipeIngredientId: 'recipeIngredientId',
+  pricePerUnit: 'pricePerUnit',
+  totalPrice: 'totalPrice',
+  unit: 'unit',
+  ingredientId: 'ingredientId',
+  orderId: 'orderId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -167,15 +177,26 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+export const ViewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recipeId: 'recipeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ViewScalarFieldEnum = (typeof ViewScalarFieldEnum)[keyof typeof ViewScalarFieldEnum]
+
+
 export const RecipeScalarFieldEnum = {
   id: 'id',
+  slug: 'slug',
   title: 'title',
   description: 'description',
   calories: 'calories',
+  cookingTime: 'cookingTime',
   imageUrl: 'imageUrl',
   difficulty: 'difficulty',
-  tags: 'tags',
-  CPFC: 'CPFC',
   authorId: 'authorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -186,14 +207,10 @@ export type RecipeScalarFieldEnum = (typeof RecipeScalarFieldEnum)[keyof typeof 
 
 export const RecipeIngredientScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  description: 'description',
-  iconUrl: 'iconUrl',
   quantity: 'quantity',
-  unit: 'unit',
-  price: 'price',
   recipeId: 'recipeId',
   ingredientId: 'ingredientId',
+  unit: 'unit',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -206,12 +223,37 @@ export const RecipeStepScalarFieldEnum = {
   title: 'title',
   order: 'order',
   description: 'description',
+  imageUrl: 'imageUrl',
   recipeId: 'recipeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type RecipeStepScalarFieldEnum = (typeof RecipeStepScalarFieldEnum)[keyof typeof RecipeStepScalarFieldEnum]
+
+
+export const NutritionFactScalarFieldEnum = {
+  id: 'id',
+  proteins: 'proteins',
+  fats: 'fats',
+  carbohydrates: 'carbohydrates',
+  fiber: 'fiber',
+  recipeId: 'recipeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NutritionFactScalarFieldEnum = (typeof NutritionFactScalarFieldEnum)[keyof typeof NutritionFactScalarFieldEnum]
+
+
+export const RecipeTagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RecipeTagScalarFieldEnum = (typeof RecipeTagScalarFieldEnum)[keyof typeof RecipeTagScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -222,6 +264,7 @@ export const UserScalarFieldEnum = {
   isTwoFactorEnabled: 'isTwoFactorEnabled',
   isVerified: 'isVerified',
   role: 'role',
+  telegramId: 'telegramId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

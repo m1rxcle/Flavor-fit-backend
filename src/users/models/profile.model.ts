@@ -25,53 +25,53 @@ export class ProfileModel {
     @Field(() => ID, {
         description: 'Уникальный идентификатор профиля',
     })
-    id: string;
+    id!: string;
     @MinLength(2, { message: 'Полное имя должно быть не менее 2 символов' })
     @Field(() => String, {
         description: 'Полное имя пользователя',
         nullable: true,
     })
-    fullName: string;
+    fullName?: string | undefined;
     @IsString({ message: 'Биография должна быть строкой' })
     @IsOptional({ message: 'Биография не обязательна' })
     @Field(() => String, {
         nullable: true,
         description: 'Биография пользователя',
     })
-    bio?: string;
+    bio?: string | undefined;
     @IsString({ message: 'Ссылка должна быть строкой' })
     @IsOptional({ message: 'Ссылка не обязательна' })
     @Field(() => String, {
         nullable: true,
         description: 'Ссылка на картинку профиля',
     })
-    imageUrl?: string;
+    imageUrl?: string | undefined;
     @IsNumber({}, { message: 'Возраст должен быть числом' })
     @IsOptional({ message: 'Возраст не обязателен' })
     @Field(() => Int, {
         nullable: true,
         description: 'Возраст пользователя',
     })
-    age?: number;
+    age?: number | undefined;
     @IsEnum(Genders, { message: 'Пол должен быть указан' })
     @Field(() => Genders, {
         defaultValue: Genders.MALE,
         description: 'Пол пользователя',
     })
-    gender: Genders;
+    gender!: Genders;
     @IsString({ message: 'Ссылка должна быть строкой' })
     @IsOptional({ message: 'Ссылка не обязательна' })
     @Field(() => [String], {
         nullable: true,
         description: 'Ссылки на сайты пользователя',
     })
-    sites: string[];
+    sites?: string[] | undefined;
     @Field(() => Date, {
         description: 'Дата создания профиля',
     })
-    createdAt: Date;
+    createdAt!: Date;
     @Field(() => Date, {
         description: 'Дата обновления профиля',
     })
-    updatedAt: Date;
+    updatedAt!: Date;
 }

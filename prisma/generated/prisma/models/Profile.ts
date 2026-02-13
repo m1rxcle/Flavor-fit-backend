@@ -476,6 +476,14 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type EnumGendersFieldUpdateOperationsInput = {
   set?: $Enums.Genders
 }

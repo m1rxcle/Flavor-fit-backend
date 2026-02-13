@@ -14,6 +14,7 @@ import { Role, TokenType } from 'prisma/generated/prisma/enums';
 import type { UserMetadata } from 'src/common/interfaces';
 import { getMetadata, IsDev, ms } from 'src/common/utils';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { TelegramService } from 'src/telegram/telegram.service';
 import { UsersService } from 'src/users/users.service';
 
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
@@ -36,6 +37,7 @@ export class AuthService {
         private readonly configService: ConfigService,
         private readonly emailConfirmationService: EmailConfirmationService,
         private readonly twoFactorService: TwoFactorService,
+        private readonly telegramService: TelegramService,
     ) {
         this.JWT_ACCESS_TOKEN_TTL = this.configService.getOrThrow<StringValue>(
             'JWT_ACCESS_TOKEN_TTL',
@@ -57,7 +59,7 @@ export class AuthService {
         });
 
         if (existedUser) {
-            throw new ConflictException('Пользователь уже зарегистрирован');
+            throw new ConflictException('Пользователь уже зарегистрирован !');
         }
 
         const newUser = await this.prismaService.user.create({
@@ -85,13 +87,13 @@ export class AuthService {
         const existedUser = await this.userService.findByEmail(email);
 
         if (!existedUser) {
-            throw new NotFoundException('Пользователь не найден');
+            throw new NotFoundException('Пользователь не найден !');
         }
 
         const isValidPassword = await verify(existedUser.password, password);
 
         if (!isValidPassword) {
-            throw new NotFoundException('Пользователь не найден');
+            throw new NotFoundException('Пользователь не найден !');
         }
 
         if (!existedUser.isVerified) {
@@ -110,7 +112,7 @@ export class AuthService {
                     userMetadata,
                 );
 
-                return { message: 'Необходим код двухфакторной авторизации' };
+                return { message: 'Необходим код двухфакторной авторизации !' };
             }
             const twoFactorToken = await this.prismaService.token.findFirst({
                 where: {
@@ -121,7 +123,7 @@ export class AuthService {
 
             if (!twoFactorToken) {
                 return {
-                    message: 'Необходим код двухфакторной авторизации',
+                    message: 'Необходим код двухфакторной авторизации !',
                 };
             }
 
@@ -143,21 +145,31 @@ export class AuthService {
 
         const { device, ip, location } = userMetadata;
 
-        await this.prismaService.userSecurityEvent.create({
-            data: {
+        const userEvent = await this.prismaService.userSecurityEvent.findFirst({
+            where: {
                 userId: existedUser.id,
-                ip: ip,
-                userAgent,
-                type: 'LOGIN',
-                country: location.country,
-                os: device.os,
-                browser: device.browser,
-                lat: location.latitude,
-                lon: location.longitude,
-                city: location.city,
-                deviceType: device.type,
             },
         });
+
+        if (!userEvent) {
+            await this.prismaService.userSecurityEvent.create({
+                data: {
+                    userId: existedUser.id,
+                    ip: ip,
+                    userAgent,
+                    type: 'LOGIN',
+                    country: location.country,
+                    os: device.os,
+                    browser: device.browser,
+                    lat: location.latitude,
+                    lon: location.longitude,
+                    city: location.city,
+                    deviceType: device.type,
+                },
+            });
+
+            await this.telegramService.newUser(userMetadata, existedUser);
+        }
 
         return this.auth(res, existedUser);
     }

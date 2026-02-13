@@ -1,11 +1,11 @@
 model Like {
-    id Int @id @default(autoincrement())
+    id String @id @default(cuid())
 
-    user   User   @relation(fields: [userId], references: [id])
-    userId String @unique @map("user_id")
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @map("user_id")
 
-    recipe   Recipe @relation(fields: [recipeId], references: [id])
-    recipeId String @unique @map("recipe_id")
+    recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+    recipeId String @map("recipe_id")
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
@@ -29,4 +29,19 @@ model Comment {
     updatedAt DateTime @updatedAt @map("updated_at")
 
     @@map("comments")
+}
+
+model View {
+    id String @id @default(cuid())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @map("user_id")
+
+    recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+    recipeId String @map("recipe_id")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@unique([userId, recipeId])
 }

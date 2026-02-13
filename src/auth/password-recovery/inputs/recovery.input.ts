@@ -7,5 +7,5 @@ export class RecoveryInput {
     @IsString({ message: 'Поле email должно быть строкой' })
     @IsEmail({}, { message: 'Поле email некорректно' })
     @IsNotEmpty({ message: 'Поле email обязательно' })
-    email: string;
+    email!: string;
 }

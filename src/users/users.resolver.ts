@@ -12,7 +12,7 @@ import {
 } from './inputs';
 import { UserProfileModel } from './models';
 import { UsersService } from './users.service';
-
+@Authorization()
 @Resolver()
 export class UsersResolver {
     constructor(private readonly usersService: UsersService) {}
@@ -26,7 +26,6 @@ export class UsersResolver {
         return this.usersService.findAll();
     }
 
-    @Authorization()
     @Query(() => UserProfileModel, {
         name: 'profile',
         description: 'Получить пользователя по id',
@@ -35,7 +34,6 @@ export class UsersResolver {
         return this.usersService.findById(id);
     }
 
-    @Authorization()
     @Mutation(() => Boolean, {
         name: 'changeEmail',
     })
@@ -47,7 +45,6 @@ export class UsersResolver {
         return this.usersService.changeEmail(user, input);
     }
 
-    @Authorization()
     @Mutation(() => Boolean, {
         name: 'changePassword',
     })
@@ -60,7 +57,6 @@ export class UsersResolver {
     }
 
     @Mutation(() => UserProfileModel)
-    @Authorization()
     async updateProfile(
         @Authorized('id') id: string,
         @Args('data', { type: () => UserUpdateInput }) input: UserUpdateInput,

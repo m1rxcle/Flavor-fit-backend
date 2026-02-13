@@ -64,12 +64,12 @@ export class BodyMeasurementInput extends PartialType(BodyMeasurementsModel) {
         nullable: true,
         description: 'Уровень активности пользователя',
     })
-    activityLevel: ActivityLevel;
+    activityLevel?: ActivityLevel | undefined;
     @IsOptional({ message: 'Цель питания не обязательна' })
     @IsEnum(NutritionalGoals, { message: 'Некорректная цель питания' })
     @Field(() => NutritionalGoals, {
         nullable: true,
         description: 'Цель питания пользователя',
     })
-    nutritionalGoal: NutritionalGoals;
+    nutritionalGoal?: NutritionalGoals | undefined;
 }

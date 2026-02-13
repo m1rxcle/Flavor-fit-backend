@@ -6,5 +6,5 @@ export class ConfirmationInput {
     @Field(() => String)
     @IsNotEmpty({ message: 'Токен обязателен' })
     @IsString({ message: 'Токен должен быть строкой' })
-    token: string;
+    token!: string;
 }

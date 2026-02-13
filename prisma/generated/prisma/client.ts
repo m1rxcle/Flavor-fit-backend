@@ -73,6 +73,11 @@ export type Like = Prisma.LikeModel
  */
 export type Comment = Prisma.CommentModel
 /**
+ * Model View
+ * 
+ */
+export type View = Prisma.ViewModel
+/**
  * Model Recipe
  * 
  */
@@ -87,6 +92,16 @@ export type RecipeIngredient = Prisma.RecipeIngredientModel
  * 
  */
 export type RecipeStep = Prisma.RecipeStepModel
+/**
+ * Model NutritionFact
+ * 
+ */
+export type NutritionFact = Prisma.NutritionFactModel
+/**
+ * Model RecipeTag
+ * 
+ */
+export type RecipeTag = Prisma.RecipeTagModel
 /**
  * Model User
  * 

@@ -15,10 +15,9 @@ export class IngredientsService {
     public constructor(private readonly prismaService: PrismaService) {}
 
     public async findAll(): Promise<Ingredient[]> {
-        const ingredients: Ingredient[] =
-            await this.prismaService.ingredient.findMany({
-                orderBy: { title: 'asc' },
-            });
+        const ingredients = await this.prismaService.ingredient.findMany({
+            orderBy: { title: 'asc' },
+        });
 
         if (ingredients.length === 0) {
             throw new NotFoundException('У вас пока что нет ингредиентов');
@@ -28,10 +27,9 @@ export class IngredientsService {
     }
 
     public async findById(id: string): Promise<Ingredient> {
-        const ingredient: Ingredient | null =
-            await this.prismaService.ingredient.findUnique({
-                where: { id },
-            });
+        const ingredient = await this.prismaService.ingredient.findUnique({
+            where: { id },
+        });
 
         if (!ingredient) {
             throw new NotFoundException(
@@ -43,7 +41,7 @@ export class IngredientsService {
     }
 
     public async create(input: IngredientInput): Promise<Ingredient> {
-        const { title, defaultUnit } = input;
+        const { title, iconUrl, description, price } = input;
 
         const existedIngredient = await this.prismaService.ingredient.findFirst(
             {
@@ -60,7 +58,9 @@ export class IngredientsService {
         return await this.prismaService.ingredient.create({
             data: {
                 title,
-                defaultUnit,
+                description,
+                iconUrl,
+                price,
             },
         });
     }
@@ -69,35 +69,43 @@ export class IngredientsService {
         id: string,
         input: IngredientUpdateInput,
     ): Promise<Ingredient> {
-        const { title, defaultUnit } = input;
+        const { title, description, iconUrl, price } = input;
 
-        const ingredient: Ingredient =
-            await this.prismaService.ingredient.update({
-                where: { id },
-                data: {
-                    title,
-                    defaultUnit,
-                },
-            });
+        const ingredient = await this.prismaService.ingredient.findUnique({
+            where: { id },
+        });
 
         if (!ingredient) {
             throw new NotFoundException('Такого ингредиента не существует');
         }
 
-        return ingredient;
+        const updatedIngredient = await this.prismaService.ingredient.update({
+            where: { id: ingredient.id },
+            data: {
+                title,
+                description,
+                iconUrl,
+                price,
+            },
+        });
+
+        return updatedIngredient;
     }
 
     public async delete(id: string): Promise<boolean> {
-        const ingredient: Ingredient =
-            await this.prismaService.ingredient.delete({
-                where: { id },
-            });
+        const ingredient = await this.prismaService.ingredient.findUnique({
+            where: { id },
+        });
 
         if (!ingredient) {
             throw new NotFoundException(
                 `Ингредиента с таким ID(${id}) не существует`,
             );
         }
+
+        await this.prismaService.ingredient.delete({
+            where: { id },
+        });
 
         return true;
     }

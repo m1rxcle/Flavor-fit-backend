@@ -16,7 +16,7 @@ export class ProfileInput extends PartialType(ProfileModel) {
         description: 'Полное имя пользователя',
         nullable: true,
     })
-    fullName: string;
+    fullName?: string | undefined;
     @IsString({ message: 'Биография должна быть строкой' })
     @IsOptional({ message: 'Биография не обязательна' })
     @Field(() => String, {
@@ -51,5 +51,5 @@ export class ProfileInput extends PartialType(ProfileModel) {
         nullable: true,
         description: 'Ссылки на сайты пользователя',
     })
-    sites: string[];
+    sites?: string[];
 }

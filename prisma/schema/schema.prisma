@@ -4,14 +4,12 @@ generator client {
   moduleFormat = "cjs"
 }
 
-/**
- * generator nestgraphql {
- * provider           = "node node_modules/prisma-nestjs-graphql"
- * output             = "../generated/prisma/graphql"
- * prismaClientPath   = "../../client"
- * prismaClientImport = "../../client"
- * }
- */
+// generator nestgraphql {
+//   provider           = "node node_modules/prisma-nestjs-graphql"
+//   output             = "../generated/prisma/graphql"
+//   prismaClientPath   = "../../client"
+//   prismaClientImport = "../../client"
+// }
 
 datasource db {
   provider = "postgresql"

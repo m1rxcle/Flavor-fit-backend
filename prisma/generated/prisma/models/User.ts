@@ -32,6 +32,7 @@ export type UserMinAggregateOutputType = {
   isTwoFactorEnabled: boolean | null
   isVerified: boolean | null
   role: $Enums.Role | null
+  telegramId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +45,7 @@ export type UserMaxAggregateOutputType = {
   isTwoFactorEnabled: boolean | null
   isVerified: boolean | null
   role: $Enums.Role | null
+  telegramId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +58,7 @@ export type UserCountAggregateOutputType = {
   isTwoFactorEnabled: number
   isVerified: number
   role: number
+  telegramId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,6 +73,7 @@ export type UserMinAggregateInputType = {
   isTwoFactorEnabled?: true
   isVerified?: true
   role?: true
+  telegramId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +86,7 @@ export type UserMaxAggregateInputType = {
   isTwoFactorEnabled?: true
   isVerified?: true
   role?: true
+  telegramId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +99,7 @@ export type UserCountAggregateInputType = {
   isTwoFactorEnabled?: true
   isVerified?: true
   role?: true
+  telegramId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -179,6 +185,7 @@ export type UserGroupByOutputType = {
   isTwoFactorEnabled: boolean
   isVerified: boolean
   role: $Enums.Role
+  telegramId: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -212,12 +219,14 @@ export type UserWhereInput = {
   isTwoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
   isVerified?: Prisma.BoolFilter<"User"> | boolean
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  telegramId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   tokens?: Prisma.TokenListRelationFilter
   recipes?: Prisma.RecipeListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   likes?: Prisma.LikeListRelationFilter
+  views?: Prisma.ViewListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
   measurements?: Prisma.XOR<Prisma.BodyMeasurementsNullableScalarRelationFilter, Prisma.BodyMeasurementsWhereInput> | null
@@ -232,12 +241,14 @@ export type UserOrderByWithRelationInput = {
   isTwoFactorEnabled?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tokens?: Prisma.TokenOrderByRelationAggregateInput
   recipes?: Prisma.RecipeOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   likes?: Prisma.LikeOrderByRelationAggregateInput
+  views?: Prisma.ViewOrderByRelationAggregateInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
   profile?: Prisma.ProfileOrderByWithRelationInput
   measurements?: Prisma.BodyMeasurementsOrderByWithRelationInput
@@ -255,12 +266,14 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   isTwoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
   isVerified?: Prisma.BoolFilter<"User"> | boolean
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  telegramId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   tokens?: Prisma.TokenListRelationFilter
   recipes?: Prisma.RecipeListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   likes?: Prisma.LikeListRelationFilter
+  views?: Prisma.ViewListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
   measurements?: Prisma.XOR<Prisma.BodyMeasurementsNullableScalarRelationFilter, Prisma.BodyMeasurementsWhereInput> | null
@@ -275,6 +288,7 @@ export type UserOrderByWithAggregationInput = {
   isTwoFactorEnabled?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -293,6 +307,7 @@ export type UserScalarWhereWithAggregatesInput = {
   isTwoFactorEnabled?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+  telegramId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -305,12 +320,14 @@ export type UserCreateInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
@@ -325,12 +342,14 @@ export type UserUncheckedCreateInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
@@ -345,12 +364,14 @@ export type UserUpdateInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
@@ -365,12 +386,14 @@ export type UserUncheckedUpdateInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUncheckedUpdateOneWithoutUserNestedInput
@@ -385,6 +408,7 @@ export type UserCreateManyInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -397,6 +421,7 @@ export type UserUpdateManyMutationInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -409,6 +434,7 @@ export type UserUncheckedUpdateManyInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -426,6 +452,7 @@ export type UserCountOrderByAggregateInput = {
   isTwoFactorEnabled?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -438,6 +465,7 @@ export type UserMaxOrderByAggregateInput = {
   isTwoFactorEnabled?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -450,6 +478,7 @@ export type UserMinOrderByAggregateInput = {
   isTwoFactorEnabled?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -513,6 +542,20 @@ export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutCommentsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserCreateNestedOneWithoutViewsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutViewsInput, Prisma.UserUncheckedCreateWithoutViewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutViewsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutViewsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutViewsInput, Prisma.UserUncheckedCreateWithoutViewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutViewsInput
+  upsert?: Prisma.UserUpsertWithoutViewsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutViewsInput, Prisma.UserUpdateWithoutViewsInput>, Prisma.UserUncheckedUpdateWithoutViewsInput>
 }
 
 export type UserCreateNestedOneWithoutRecipesInput = {
@@ -589,12 +632,14 @@ export type UserCreateWithoutOrdersInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
   userSecurityEvent?: Prisma.userSecurityEventCreateNestedManyWithoutUserInput
@@ -608,12 +653,14 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
   userSecurityEvent?: Prisma.userSecurityEventUncheckedCreateNestedManyWithoutUserInput
@@ -643,12 +690,14 @@ export type UserUpdateWithoutOrdersInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
   userSecurityEvent?: Prisma.userSecurityEventUpdateManyWithoutUserNestedInput
@@ -662,12 +711,14 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUncheckedUpdateOneWithoutUserNestedInput
   userSecurityEvent?: Prisma.userSecurityEventUncheckedUpdateManyWithoutUserNestedInput
@@ -681,12 +732,14 @@ export type UserCreateWithoutProfileInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
   userSecurityEvent?: Prisma.userSecurityEventCreateNestedManyWithoutUserInput
@@ -700,12 +753,14 @@ export type UserUncheckedCreateWithoutProfileInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
   userSecurityEvent?: Prisma.userSecurityEventUncheckedCreateNestedManyWithoutUserInput
@@ -735,12 +790,14 @@ export type UserUpdateWithoutProfileInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
   userSecurityEvent?: Prisma.userSecurityEventUpdateManyWithoutUserNestedInput
@@ -754,12 +811,14 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUncheckedUpdateOneWithoutUserNestedInput
   userSecurityEvent?: Prisma.userSecurityEventUncheckedUpdateManyWithoutUserNestedInput
@@ -773,11 +832,13 @@ export type UserCreateWithoutLikesInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
@@ -792,11 +853,13 @@ export type UserUncheckedCreateWithoutLikesInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
@@ -827,11 +890,13 @@ export type UserUpdateWithoutLikesInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
@@ -846,11 +911,13 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUncheckedUpdateOneWithoutUserNestedInput
@@ -865,11 +932,13 @@ export type UserCreateWithoutCommentsInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
@@ -884,11 +953,13 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
@@ -919,11 +990,13 @@ export type UserUpdateWithoutCommentsInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
@@ -938,10 +1011,112 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementsUncheckedUpdateOneWithoutUserNestedInput
+  userSecurityEvent?: Prisma.userSecurityEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutViewsInput = {
+  id?: string
+  fullName: string
+  email: string
+  password: string
+  isTwoFactorEnabled?: boolean
+  isVerified?: boolean
+  role?: $Enums.Role
+  telegramId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
+  userSecurityEvent?: Prisma.userSecurityEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutViewsInput = {
+  id?: string
+  fullName: string
+  email: string
+  password: string
+  isTwoFactorEnabled?: boolean
+  isVerified?: boolean
+  role?: $Enums.Role
+  telegramId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
+  userSecurityEvent?: Prisma.userSecurityEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutViewsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutViewsInput, Prisma.UserUncheckedCreateWithoutViewsInput>
+}
+
+export type UserUpsertWithoutViewsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutViewsInput, Prisma.UserUncheckedUpdateWithoutViewsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutViewsInput, Prisma.UserUncheckedCreateWithoutViewsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutViewsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutViewsInput, Prisma.UserUncheckedUpdateWithoutViewsInput>
+}
+
+export type UserUpdateWithoutViewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
+  userSecurityEvent?: Prisma.userSecurityEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutViewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -957,11 +1132,13 @@ export type UserCreateWithoutRecipesInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
@@ -976,11 +1153,13 @@ export type UserUncheckedCreateWithoutRecipesInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
@@ -1011,11 +1190,13 @@ export type UserUpdateWithoutRecipesInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
@@ -1030,11 +1211,13 @@ export type UserUncheckedUpdateWithoutRecipesInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUncheckedUpdateOneWithoutUserNestedInput
@@ -1049,11 +1232,13 @@ export type UserCreateWithoutTokensInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
@@ -1068,11 +1253,13 @@ export type UserUncheckedCreateWithoutTokensInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
@@ -1103,11 +1290,13 @@ export type UserUpdateWithoutTokensInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
@@ -1122,11 +1311,13 @@ export type UserUncheckedUpdateWithoutTokensInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUncheckedUpdateOneWithoutUserNestedInput
@@ -1141,12 +1332,14 @@ export type UserCreateWithoutMeasurementsInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   userSecurityEvent?: Prisma.userSecurityEventCreateNestedManyWithoutUserInput
@@ -1160,12 +1353,14 @@ export type UserUncheckedCreateWithoutMeasurementsInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   userSecurityEvent?: Prisma.userSecurityEventUncheckedCreateNestedManyWithoutUserInput
@@ -1195,12 +1390,14 @@ export type UserUpdateWithoutMeasurementsInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   userSecurityEvent?: Prisma.userSecurityEventUpdateManyWithoutUserNestedInput
@@ -1214,12 +1411,14 @@ export type UserUncheckedUpdateWithoutMeasurementsInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   userSecurityEvent?: Prisma.userSecurityEventUncheckedUpdateManyWithoutUserNestedInput
@@ -1233,12 +1432,14 @@ export type UserCreateWithoutUserSecurityEventInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsCreateNestedOneWithoutUserInput
@@ -1252,12 +1453,14 @@ export type UserUncheckedCreateWithoutUserSecurityEventInput = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: $Enums.Role
+  telegramId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementsUncheckedCreateNestedOneWithoutUserInput
@@ -1287,12 +1490,14 @@ export type UserUpdateWithoutUserSecurityEventInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUpdateOneWithoutUserNestedInput
@@ -1306,12 +1511,14 @@ export type UserUncheckedUpdateWithoutUserSecurityEventInput = {
   isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementsUncheckedUpdateOneWithoutUserNestedInput
@@ -1327,6 +1534,7 @@ export type UserCountOutputType = {
   recipes: number
   comments: number
   likes: number
+  views: number
   orders: number
   userSecurityEvent: number
 }
@@ -1336,6 +1544,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   recipes?: boolean | UserCountOutputTypeCountRecipesArgs
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
   likes?: boolean | UserCountOutputTypeCountLikesArgs
+  views?: boolean | UserCountOutputTypeCountViewsArgs
   orders?: boolean | UserCountOutputTypeCountOrdersArgs
   userSecurityEvent?: boolean | UserCountOutputTypeCountUserSecurityEventArgs
 }
@@ -1381,6 +1590,13 @@ export type UserCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountViewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ViewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.OrderWhereInput
 }
@@ -1401,12 +1617,14 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: boolean
+  telegramId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tokens?: boolean | Prisma.User$tokensArgs<ExtArgs>
   recipes?: boolean | Prisma.User$recipesArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   likes?: boolean | Prisma.User$likesArgs<ExtArgs>
+  views?: boolean | Prisma.User$viewsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   measurements?: boolean | Prisma.User$measurementsArgs<ExtArgs>
@@ -1422,6 +1640,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: boolean
+  telegramId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1434,6 +1653,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: boolean
+  telegramId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1446,16 +1666,18 @@ export type UserSelectScalar = {
   isTwoFactorEnabled?: boolean
   isVerified?: boolean
   role?: boolean
+  telegramId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "password" | "isTwoFactorEnabled" | "isVerified" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "password" | "isTwoFactorEnabled" | "isVerified" | "role" | "telegramId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tokens?: boolean | Prisma.User$tokensArgs<ExtArgs>
   recipes?: boolean | Prisma.User$recipesArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   likes?: boolean | Prisma.User$likesArgs<ExtArgs>
+  views?: boolean | Prisma.User$viewsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   measurements?: boolean | Prisma.User$measurementsArgs<ExtArgs>
@@ -1472,6 +1694,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     recipes: Prisma.$RecipePayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
     likes: Prisma.$LikePayload<ExtArgs>[]
+    views: Prisma.$ViewPayload<ExtArgs>[]
     orders: Prisma.$OrderPayload<ExtArgs>[]
     profile: Prisma.$ProfilePayload<ExtArgs> | null
     measurements: Prisma.$BodyMeasurementsPayload<ExtArgs> | null
@@ -1485,6 +1708,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     isTwoFactorEnabled: boolean
     isVerified: boolean
     role: $Enums.Role
+    telegramId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1885,6 +2109,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   recipes<T extends Prisma.User$recipesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recipesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   likes<T extends Prisma.User$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  views<T extends Prisma.User$viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orders<T extends Prisma.User$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   measurements<T extends Prisma.User$measurementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$measurementsArgs<ExtArgs>>): Prisma.Prisma__BodyMeasurementsClient<runtime.Types.Result.GetResult<Prisma.$BodyMeasurementsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -1925,6 +2150,7 @@ export interface UserFieldRefs {
   readonly isTwoFactorEnabled: Prisma.FieldRef<"User", 'Boolean'>
   readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
+  readonly telegramId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -2408,6 +2634,30 @@ export type User$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.LikeScalarFieldEnum | Prisma.LikeScalarFieldEnum[]
+}
+
+/**
+ * User.views
+ */
+export type User$viewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the View
+   */
+  select?: Prisma.ViewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the View
+   */
+  omit?: Prisma.ViewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ViewInclude<ExtArgs> | null
+  where?: Prisma.ViewWhereInput
+  orderBy?: Prisma.ViewOrderByWithRelationInput | Prisma.ViewOrderByWithRelationInput[]
+  cursor?: Prisma.ViewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ViewScalarFieldEnum | Prisma.ViewScalarFieldEnum[]
 }
 
 /**

@@ -1,11 +1,14 @@
 model Order {
     id String @id @default(cuid())
 
-    orderId String      @unique @map("order_id")
-    status  OrderStatus
+    orderId     Int         @unique @default(autoincrement()) @map("order_id")
+    status      OrderStatus @default(PENDING)
+    totalAmount Float       @default(0)
 
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @map("user_id")
+
+    items OrderItem[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
@@ -16,10 +19,16 @@ model Order {
 model OrderItem {
     id String @id @default(cuid())
 
-    quantity Int? @default(1)
+    quantity     Float
+    pricePerUnit Float
+    totalPrice   Float
+    unit         Unit
 
-    recipeIngredient   RecipeIngredient @relation(fields: [recipeIngredientId], references: [id], onDelete: Cascade)
-    recipeIngredientId String           @map("recipe_ingredient_id")
+    ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+    ingredientId String     @map("ingredient_id")
+
+    order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    orderId String @map("order_id")
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")

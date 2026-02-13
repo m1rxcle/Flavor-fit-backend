@@ -2,23 +2,16 @@ model Ingredient {
     id String @id @default(cuid())
 
     title       String
-    defaultUnit Unit   @map("default_unit")
+    iconUrl     String @map("icon_url")
+    description String
+    price       Float
 
     recipesIngredients RecipeIngredient[]
+    orderItems         OrderItem[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
     @@index(fields: [title], type: Hash)
     @@map("ingredients")
-}
-
-enum Unit {
-    GRAM
-    MILLILITER
-    PIECE
-    TEASPOON
-    TABLESPOON
-    CLOVES
-    CUP
 }

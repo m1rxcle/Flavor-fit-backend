@@ -7,11 +7,11 @@ export class ChangePasswordInput {
     @IsNotEmpty({ message: 'Пароль обязательно' })
     @IsString({ message: 'Пароль должно быть строкой' })
     @MinLength(6, { message: 'Пароль должен быть не менее 6 символов' })
-    newPassword: string;
+    newPassword!: string;
 
     @Field(() => String)
     @IsNotEmpty({ message: 'Пароль обязательно' })
     @IsString({ message: 'Пароль должно быть строкой' })
     @MinLength(6, { message: 'Пароль должен быть не менее 6 символов' })
-    oldPassword: string;
+    oldPassword!: string;
 }

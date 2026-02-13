@@ -21,31 +21,31 @@ export class UserProfileModel {
     @Field(() => ID, {
         description: 'Уникальный идентификатор пользователя',
     })
-    id: string;
+    id!: string;
     @Field(() => String, {
         description: 'Почта пользователя',
     })
-    email: string;
+    email!: string;
 
     @Field(() => String, {
         description: 'Полное имя пользователя',
     })
-    fullName: string;
+    fullName!: string;
     @Field(() => Role, {
         defaultValue: 'USER',
         description: 'Роль пользователя',
     })
-    role: Role;
+    role!: Role;
     @Field(() => Boolean, {
-        nullable: true,
+        defaultValue: false,
         description: 'Включен ли двухфакторная аутентификация',
     })
-    isTwoFactorEnabled: boolean;
+    isTwoFactorEnabled!: boolean;
     @Field(() => Boolean, {
-        nullable: true,
+        defaultValue: false,
         description: 'Верифицирован ли пользователь',
     })
-    isVerified: boolean;
+    isVerified!: boolean;
 
     @Field(() => ProfileModel, {
         description: 'Профиль пользователя',
@@ -62,9 +62,9 @@ export class UserProfileModel {
     @Field(() => Date, {
         description: 'Дата создания пользователя',
     })
-    createdAt: Date;
+    createdAt!: Date;
     @Field(() => Date, {
         description: 'Дата обновления пользователя',
     })
-    updatedAt: Date;
+    updatedAt!: Date;
 }

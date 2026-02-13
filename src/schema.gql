@@ -112,6 +112,35 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
+input CommentInput {
+  """Содержание комментария"""
+  content: String!
+
+  """ID рецепта"""
+  recipeId: String!
+}
+
+"""Комментарии к рецепту"""
+type CommentsModel {
+  """ID автора комментария"""
+  authorId: String!
+
+  """Содержание комментария"""
+  content: String!
+
+  """Дата создания комментария"""
+  createdAt: DateTime!
+
+  """ID комментария"""
+  id: ID!
+
+  """ID рецепта"""
+  recipeId: String!
+
+  """Дата обновления комментария"""
+  updatedAt: DateTime!
+}
+
 input ConfirmationInput {
   token: String!
 }
@@ -120,6 +149,18 @@ input ConfirmationInput {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+"""Сложность рецепта"""
+enum Difficulty {
+  """Легкий"""
+  EASY
+
+  """Сложный"""
+  HARD
+
+  """Средний"""
+  MEDIUM
+}
 
 """Гендеры пользователей"""
 enum Genders {
@@ -133,7 +174,13 @@ enum Genders {
 """Ингредиент"""
 input IngredientInput {
   """Единица измерения"""
-  defaultUnit: Unit!
+  description: String!
+
+  """Ссылка на картинку ингредиента"""
+  iconUrl: String!
+
+  """Цена ингредиента"""
+  price: Float!
 
   """Название ингредиента"""
   title: String!
@@ -143,11 +190,17 @@ type IngredientModel {
   """Дата создания ингредиента"""
   createdAt: DateTime!
 
-  """Единица измерения"""
-  defaultUnit: Unit!
+  """Описание ингредиента"""
+  description: String!
+
+  """Ссылка на картинку ингредиента"""
+  iconUrl: String!
 
   """ID ингредиента"""
   id: ID!
+
+  """Цена ингредиента"""
+  price: Float!
 
   """Название ингредиента"""
   title: String!
@@ -158,11 +211,41 @@ type IngredientModel {
 
 """Обновление ингредиента"""
 input IngredientUpdateInput {
-  """Единица измерения"""
-  defaultUnit: Unit
+  """Описание ингредиента"""
+  description: String
+
+  """Ссылка на картинку ингредиента"""
+  iconUrl: String
+
+  """Цена ингредиента"""
+  price: Float
 
   """Название ингредиента"""
   title: String
+}
+
+"""Модель лайка"""
+type LikeModel {
+  """Дата создания лайка"""
+  createdAt: DateTime!
+
+  """ID лайка"""
+  id: ID!
+
+  """ID рецепта"""
+  recipeId: String!
+
+  """Дата обновления лайка"""
+  updatedAt: DateTime!
+
+  """ID пользователя"""
+  userId: String!
+}
+
+"""Результат лайка"""
+type LikeResponse {
+  """Лайкнут ли рецепт"""
+  isLiked: Boolean!
 }
 
 input LoginInput {
@@ -174,9 +257,15 @@ input LoginInput {
 type Mutation {
   changeEmail(data: ChangeEmailInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
+  createComment(input: CommentInput!): CommentsModel!
   createIngredient(data: IngredientInput!): IngredientModel!
+  createOrder(input: OrderCreateInput!): Order!
+  createRecipe(data: RecipeCreateInput!): RecipeModel!
+  deleteComment(id: String!): Boolean!
   deleteIngredient(id: String!): Boolean!
+  deleteRecipe(id: String!): Boolean!
   disableTwoFactor: Boolean!
+  editComment(id: String!, input: CommentInput!): Boolean!
   enableTwoFactor: Boolean!
   login(data: LoginInput!): AuthResponse!
   logout: Boolean!
@@ -184,8 +273,10 @@ type Mutation {
   refresh: AuthResponse!
   register(data: RegisterInput!): AuthResponse!
   resetPassword(data: RecoveryInput!): Boolean!
+  toggleLike(recipeId: String!): LikeResponse!
   updateIngredient(data: IngredientUpdateInput!, id: String!): IngredientModel!
   updateProfile(data: UserUpdateInput!): UserProfileModel!
+  updateRecipe(data: RecipeCreateInput!, id: String!): RecipeModel!
   verifyEmail(data: ConfirmationInput!): Boolean!
 }
 
@@ -193,6 +284,46 @@ input NewPasswordInput {
   confirmPassword: String!
   newPassword: String!
   token: String!
+}
+
+input NutritionFactCreateInput {
+  """Количество углеводов"""
+  carbohydrates: Float!
+
+  """Количество жиров"""
+  fats: Float!
+
+  """Количество клетчатки"""
+  fiber: Float!
+
+  """Количество белков"""
+  proteins: Float!
+}
+
+type NutritionFactModel {
+  """Количество углеводов"""
+  carbohydrates: Float!
+
+  """Дата создания"""
+  createdAt: DateTime!
+
+  """Количество жиров"""
+  fats: Float!
+
+  """Количество клетчатки"""
+  fiber: Float!
+
+  """ID"""
+  id: String!
+
+  """Количество белков"""
+  proteins: Float!
+
+  """ID рецепта"""
+  recipeId: String!
+
+  """Дата обновления"""
+  updatedAt: DateTime!
 }
 
 """Цели питания"""
@@ -205,6 +336,86 @@ enum NutritionalGoals {
 
   """Снижение веса"""
   WEIGHT_LOSS
+}
+
+type Order {
+  """Дата создания заказа"""
+  createdAt: DateTime!
+
+  """ID заказа"""
+  id: String!
+
+  """Позиции заказа"""
+  items: [OrderItemModel!]
+
+  """ID Заказа"""
+  orderId: Int!
+
+  """Статус заказа"""
+  status: OrderStatus!
+
+  """Итоговая сумма заказа"""
+  totalAmount: Float!
+
+  """Дата обновления заказа"""
+  updatedAt: DateTime!
+}
+
+input OrderCreateInput {
+  """Позиции заказа"""
+  items: [OrderItemInput!]!
+}
+
+input OrderItemInput {
+  """ID ингредиента"""
+  ingredientId: ID!
+
+  """Количество ингредиента"""
+  quantity: Float! = 1
+
+  """Единица измерения"""
+  unit: Unit!
+}
+
+type OrderItemModel {
+  """Дата создания заказа"""
+  createdAt: DateTime!
+
+  """ID заказа"""
+  id: String!
+
+  """Конкретный ингредиент"""
+  ingredient: IngredientModel!
+
+  """Цена за единицу"""
+  pricePerUnit: Float!
+
+  """Количество"""
+  quantity: Float!
+
+  """Общая цена"""
+  totalPrice: Float!
+
+  """Единица измерения"""
+  unit: Unit!
+
+  """Дата обновления заказа"""
+  updatedAt: DateTime!
+}
+
+"""Статус заказа"""
+enum OrderStatus {
+  """Отменен"""
+  CANCELED
+
+  """Выполнен"""
+  COMPLETED
+
+  """В ожидании"""
+  PENDING
+
+  """В обработке"""
+  PROCESSING
 }
 
 """Данные профиля пользователя которые можно изменить"""
@@ -259,14 +470,209 @@ type ProfileModel {
 }
 
 type Query {
+  getAllCommentsFromRecipe(recipeId: String!): [CommentsModel!]!
   getAllIngredients: [IngredientModel!]!
+  getAllLikesFromRecipe(recipeId: String!): Int!
+  getAllOrdersFromId: [Order!]!
+  getAllRecipes(take: Float! = 10): [RecipeModel!]!
 
   """Получить всех пользователей"""
   getAllUsers: [UserProfileModel!]!
   getIngredientById(id: String!): IngredientModel!
+  getRecipeById(id: String!): RecipeModel!
+  getRecipeBySlug(slug: String!): RecipeModel!
+  getRecipeFilters: [RecipeModel!]!
 
   """Получить пользователя по id"""
   profile: UserProfileModel!
+  searchRecipes(searchTerm: String!): [RecipeModel!]!
+  sortRecipes(sortBy: String!): [RecipeModel!]!
+}
+
+input RecipeCreateInput {
+  """Количество калорий"""
+  calories: Int!
+
+  """Время приготовления"""
+  cookingTime: Int!
+
+  """Описание рецепта"""
+  description: String!
+
+  """Сложность рецепта"""
+  difficulty: Difficulty!
+
+  """Ссылка на картинку рецепта"""
+  imageUrl: String!
+
+  """Факты питания рецепта"""
+  nutritionFact: NutritionFactCreateInput!
+
+  """Ингредиенты рецепта"""
+  recipeIngredients: [RecipeIngredientCreateInput!]!
+
+  """Шаги рецепта"""
+  recipeStep: [RecipeStepCreateInput!]!
+
+  """Slug рецепта"""
+  slug: String!
+
+  """Теги рецепта"""
+  tag: [RecipeTagCreateInput!]!
+
+  """Название рецепта"""
+  title: String!
+}
+
+input RecipeIngredientCreateInput {
+  """ID ингредиента"""
+  ingredientId: ID!
+
+  """Количество ингредиента"""
+  quantity: Float!
+
+  """Единица измерения"""
+  unit: Unit!
+}
+
+type RecipeIngredientModel {
+  """Цена ингредиента"""
+  createdAt: DateTime!
+
+  """ID ингредиента"""
+  id: String!
+
+  """Название ингредиента"""
+  ingredientId: String!
+
+  """Количество ингредиента"""
+  quantity: Float!
+
+  """ID рецепта"""
+  recipeId: String!
+
+  """Единица измерения"""
+  unit: Unit!
+
+  """Дата обновления ингредиента"""
+  updatedAt: DateTime!
+}
+
+type RecipeModel {
+  """Автор рецепта"""
+  author: UserProfileModel!
+
+  """ID автора рецепта"""
+  authorId: String!
+
+  """Количество калорий"""
+  calories: Int!
+
+  """Комментарии рецепта"""
+  comments: [CommentsModel!]
+
+  """Время приготовления"""
+  cookingTime: Int!
+
+  """Дата создания рецепта"""
+  createdAt: DateTime!
+
+  """Описание рецепта"""
+  description: String!
+
+  """Сложность рецепта"""
+  difficulty: Difficulty!
+
+  """ID рецепта"""
+  id: ID!
+
+  """Ссылка на картинку рецепта"""
+  imageUrl: String!
+
+  """Лайки рецепта"""
+  likes: [LikeModel!]
+
+  """Факты питания рецепта"""
+  nutritionFact: NutritionFactModel!
+
+  """Ингредиенты рецепта"""
+  recipeIngredients: [RecipeIngredientModel!]!
+
+  """Шаги рецепта"""
+  recipeStep: [RecipeStepModel!]!
+
+  """Slug рецепта"""
+  slug: String!
+
+  """Теги рецепта"""
+  tag: [RecipeTagModel!]!
+
+  """Название рецепта"""
+  title: String!
+
+  """Дата обновления рецепта"""
+  updatedAt: DateTime!
+
+  """Просмотры рецепта"""
+  views: [ViewModel!]
+}
+
+input RecipeStepCreateInput {
+  """Описание шага"""
+  description: String!
+
+  """Ссылка на картинку шага"""
+  imageUrl: String!
+
+  """Порядковый номер шага"""
+  order: Int!
+
+  """Название шага"""
+  title: String!
+}
+
+type RecipeStepModel {
+  """Дата создания шага"""
+  createdAt: DateTime!
+
+  """Описание шага"""
+  description: String!
+
+  """ID шага"""
+  id: String!
+
+  """Ссылка на картинку шага"""
+  imageUrl: String
+
+  """Порядковый номер шага"""
+  order: Int!
+
+  """ID рецепта"""
+  recipeId: String!
+
+  """Название шага"""
+  title: String!
+
+  """Дата обновления шага"""
+  updatedAt: DateTime!
+}
+
+input RecipeTagCreateInput {
+  name: String!
+}
+
+type RecipeTagModel {
+  """Дата создания тега"""
+  createdAt: DateTime!
+
+  """ID тега"""
+  id: String!
+
+  """Название тега"""
+  name: String!
+
+  """Дата обновления тега"""
+  updatedAt: DateTime!
 }
 
 input RecoveryInput {
@@ -290,7 +696,7 @@ enum Role {
 
 """Единица измерения"""
 enum Unit {
-  """Дольки"""
+  """Зубчик"""
   CLOVES
 
   """Чашка"""
@@ -327,10 +733,10 @@ type UserProfileModel {
   id: ID!
 
   """Включен ли двухфакторная аутентификация"""
-  isTwoFactorEnabled: Boolean
+  isTwoFactorEnabled: Boolean!
 
   """Верифицирован ли пользователь"""
-  isVerified: Boolean
+  isVerified: Boolean!
 
   """Модель измерений тела"""
   measurements: BodyMeasurementsModel
@@ -358,4 +764,21 @@ input UserUpdateInput {
 
   """Профиль пользователя"""
   profile: ProfileInput
+}
+
+type ViewModel {
+  """Дата создания просмотра"""
+  createdAt: DateTime!
+
+  """ID просмотра"""
+  id: String!
+
+  """ID рецепта"""
+  recipeId: String!
+
+  """Дата обновления просмотра"""
+  updatedAt: DateTime!
+
+  """ID пользователя"""
+  userId: String!
 }

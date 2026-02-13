@@ -4,6 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
 import { getJwtConfig } from 'src/config';
+import { TelegramModule } from 'src/telegram/telegram.module';
+import { TelegramService } from 'src/telegram/telegram.service';
 import { UsersService } from 'src/users/users.service';
 
 import { AuthResolver } from './auth.resolver';
@@ -25,6 +27,7 @@ import { TwoFactorService } from './two-factor/two-factor.service';
         EmailConfirmationModule,
         PasswordRecoveryModule,
         TwoFactorModule,
+        TelegramModule,
     ],
     providers: [
         UsersService,
@@ -32,6 +35,7 @@ import { TwoFactorService } from './two-factor/two-factor.service';
         AuthService,
         JwtStrategy,
         TwoFactorService,
+        TelegramService,
     ],
 })
 export class AuthModule {}

@@ -32,11 +32,11 @@ export class BodyMeasurementsModel {
     @Field(() => ID, {
         description: 'Уникальный идентификатор модели',
     })
-    id: string;
+    id!: string;
     @Field(() => String, {
         description: 'Уникальный идентификатор пользователя',
     })
-    userId: string;
+    userId!: string;
     @IsString({ message: 'Рост должен быть строкой' })
     @IsOptional({ message: 'Рост не обязателен' })
     @Field(() => String, {
@@ -92,21 +92,21 @@ export class BodyMeasurementsModel {
         nullable: true,
         description: 'Уровень активности пользователя',
     })
-    activityLevel: ActivityLevel;
+    activityLevel?: ActivityLevel | undefined;
     @IsOptional({ message: 'Цель питания не обязательна' })
     @Field(() => NutritionalGoals, {
         defaultValue: NutritionalGoals.WEIGHT_LOSS,
         nullable: true,
         description: 'Цель питания пользователя',
     })
-    nutritionalGoal: NutritionalGoals;
+    nutritionalGoal?: NutritionalGoals | undefined;
 
     @Field(() => Date, {
         description: 'Дата создания модели',
     })
-    createdAt: Date;
+    createdAt!: Date;
     @Field(() => Date, {
         description: 'Дата обновления модели',
     })
-    updatedAt: Date;
+    updatedAt!: Date;
 }

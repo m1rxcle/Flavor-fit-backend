@@ -9,14 +9,14 @@ export class NewPasswordInput {
     @IsString({ message: 'Новый пароль должен быть строкой' })
     @IsNotEmpty({ message: 'Новый пароль обязателен' })
     @MinLength(6, { message: 'Новый пароль должен быть не менее 6 символов' })
-    newPassword: string;
+    newPassword!: string;
     @Validate(IsPasswordMatching, { message: 'Пароли не совпадают' })
     @Field(() => String)
     @IsString({ message: 'Новый пароль должен быть строкой' })
     @IsNotEmpty({ message: 'Новый пароль обязателен' })
-    confirmPassword: string;
+    confirmPassword!: string;
     @Field(() => String)
     @IsString({ message: 'Новый пароль должен быть строкой' })
     @IsNotEmpty({ message: 'Новый пароль обязателен' })
-    token: string;
+    token!: string;
 }
