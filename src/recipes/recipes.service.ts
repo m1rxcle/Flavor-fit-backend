@@ -7,7 +7,7 @@ import {
 
 import type { Recipe, User } from 'prisma/generated/prisma/client';
 
-import type { ISortBy } from 'src/common/interfaces';
+import { SortByEnum } from 'src/common/enums/sort-by.enum';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import type { RecipeCreateInput, RecipeUpdateInput } from './inputs';
@@ -91,14 +91,14 @@ export class RecipesService {
         return recipes;
     }
 
-    public async sort(sortBy: ISortBy) {
+    public async sort(sortBy: SortByEnum) {
         let orderBy = {};
 
         switch (sortBy) {
-            case 'popularity':
+            case SortByEnum.POPULARITY:
                 orderBy = { views: { _count: 'desc' } };
                 break;
-            case 'recommended':
+            case SortByEnum.RECOMMENDED:
                 orderBy = { likes: { _count: 'desc' } };
                 break;
             default:
@@ -143,7 +143,7 @@ export class RecipesService {
         };
     }
 
-    public async getAll(take: number = 10): Promise<Recipe[]> {
+    public async getAll(take: number = 10) {
         const recipes = await this.prismaService.recipe.findMany({
             orderBy: {
                 title: 'asc',

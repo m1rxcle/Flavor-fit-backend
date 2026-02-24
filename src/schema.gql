@@ -271,7 +271,8 @@ type Mutation {
   logout: Boolean!
   newPassword(data: NewPasswordInput!): Boolean!
   refresh: AuthResponse!
-  register(data: RegisterInput!): AuthResponse!
+  register(data: RegisterInput!): RegisterResponse!
+  resendVerificationEmail(email: String!): Boolean!
   resetPassword(data: RecoveryInput!): Boolean!
   toggleLike(recipeId: String!): LikeResponse!
   updateIngredient(data: IngredientUpdateInput!, id: String!): IngredientModel!
@@ -479,14 +480,14 @@ type Query {
   """Получить всех пользователей"""
   getAllUsers: [UserProfileModel!]!
   getIngredientById(id: String!): IngredientModel!
+
+  """Получить пользователя по id"""
+  getMe: UserProfileModel!
   getRecipeById(id: String!): RecipeModel!
   getRecipeBySlug(slug: String!): RecipeModel!
   getRecipeFilters: [RecipeModel!]!
-
-  """Получить пользователя по id"""
-  profile: UserProfileModel!
   searchRecipes(searchTerm: String!): [RecipeModel!]!
-  sortRecipes(sortBy: String!): [RecipeModel!]!
+  sortRecipes(sortBy: SortByEnum!): [RecipeModel!]!
 }
 
 input RecipeCreateInput {
@@ -685,6 +686,14 @@ input RegisterInput {
   password: String!
 }
 
+type RegisterResponse {
+  """Email зарегистрированного пользователя"""
+  email: String!
+
+  """Успешность регистрации"""
+  success: Boolean!
+}
+
 """Роли пользователей"""
 enum Role {
   """Администратор с полным доступом"""
@@ -692,6 +701,18 @@ enum Role {
 
   """Обычный пользователь"""
   USER
+}
+
+"""Сортировка рецептов"""
+enum SortByEnum {
+  """По умолчанию"""
+  DEFAULT
+
+  """По популярности"""
+  POPULARITY
+
+  """По рекомендациям"""
+  RECOMMENDED
 }
 
 """Единица измерения"""

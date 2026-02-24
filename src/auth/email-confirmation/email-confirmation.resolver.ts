@@ -10,7 +10,17 @@ export class EmailConfirmationResolver {
     ) {}
 
     @Mutation(() => Boolean, { name: 'verifyEmail' })
-    public verify(@Args('data') input: ConfirmationInput) {
+    public verify(
+        @Args('data', { type: () => ConfirmationInput })
+        input: ConfirmationInput,
+    ) {
         return this.emailConfirmationService.newVerification(input);
+    }
+
+    @Mutation(() => Boolean, { name: 'resendVerificationEmail' })
+    public resendVerificationEmail(
+        @Args('email', { type: () => String }) email: string,
+    ) {
+        return this.emailConfirmationService.resendVerificationToken(email);
     }
 }

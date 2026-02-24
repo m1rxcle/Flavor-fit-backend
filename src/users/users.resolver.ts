@@ -27,10 +27,10 @@ export class UsersResolver {
     }
 
     @Query(() => UserProfileModel, {
-        name: 'profile',
+        name: 'getMe',
         description: 'Получить пользователя по id',
     })
-    async getProfile(@Authorized('id') id: string) {
+    async getMe(@Authorized('id') id: string) {
         return this.usersService.findById(id);
     }
 

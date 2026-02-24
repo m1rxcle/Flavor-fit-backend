@@ -5,18 +5,17 @@ import type { GraphQLContext } from 'src/common/interfaces';
 import { AuthService } from './auth.service';
 import { UserAgent } from './decorators/user-agent.decorator';
 import { LoginInput, RegisterInput } from './inputs';
-import { AuthResponse } from './models';
+import { AuthResponse, RegisterResponse } from './models';
 
 @Resolver()
 export class AuthResolver {
     constructor(private readonly authService: AuthService) {}
 
-    @Mutation(() => AuthResponse)
+    @Mutation(() => RegisterResponse)
     register(
-        @Context() { res }: GraphQLContext,
         @Args({ name: 'data', type: () => RegisterInput }) input: RegisterInput,
     ) {
-        return this.authService.register(res, input);
+        return this.authService.register(input);
     }
 
     @Mutation(() => AuthResponse)

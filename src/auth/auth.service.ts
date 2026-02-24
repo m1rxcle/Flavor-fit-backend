@@ -1,5 +1,6 @@
 import {
     ConflictException,
+    ForbiddenException,
     Injectable,
     NotFoundException,
     UnauthorizedException,
@@ -49,7 +50,7 @@ export class AuthService {
             this.configService.getOrThrow<string>('COOKIE_DOMAIN');
     }
 
-    async register(res: Response, input: RegisterInput) {
+    async register(input: RegisterInput) {
         const { fullName, email, password } = input;
 
         const existedUser = await this.prismaService.user.findUnique({
@@ -72,7 +73,10 @@ export class AuthService {
 
         await this.emailConfirmationService.sendVerificationToken(newUser);
 
-        return this.auth(res, newUser);
+        return {
+            success: true,
+            email: newUser.email,
+        };
     }
 
     async login(
@@ -100,7 +104,7 @@ export class AuthService {
             await this.emailConfirmationService.sendVerificationToken(
                 existedUser,
             );
-            throw new UnauthorizedException(
+            throw new ForbiddenException(
                 'Ваш email не подтвержден. Пожалуйста, проверьте вашу почту и подтвердите ваш аккаунт.',
             );
         }
@@ -130,7 +134,7 @@ export class AuthService {
             const isValid = token === twoFactorToken.token;
 
             if (!isValid) {
-                throw new UnauthorizedException(
+                throw new ForbiddenException(
                     'Ваш код не верен, пожалуйста убедитесь что у вас правильный код!',
                 );
             }

@@ -3,6 +3,7 @@ import {
     Container,
     Heading,
     Hr,
+    Link,
     Preview,
     Section,
     Tailwind,
@@ -10,6 +11,7 @@ import {
 } from '@react-email/components';
 import { Html } from '@react-email/html';
 import * as React from 'react';
+import { FRONTEND_URL } from 'src/common/constants/app.constants';
 import type { UserMetadata } from 'src/common/interfaces';
 
 interface RecoveryTemplateProps {
@@ -21,14 +23,14 @@ export const RecoveryTemplate = ({
     token,
     userMetadata,
 }: RecoveryTemplateProps) => {
-    const splitToken = token;
     const { device, ip, location } = userMetadata;
+    const resetLink = `${FRONTEND_URL}/reset-password/${token}`;
 
     return (
         <Tailwind>
             <Html className="bg-gray-500">
                 <Body className="bg-white font-aws text-[#212121]">
-                    <Preview>Flavor Fit - Сброс пароля ({splitToken})</Preview>
+                    <Preview>Flavor Fit - Сброс пароля</Preview>
                     <Container className="p-5 mx-auto bg-[#eee]">
                         <Section className="bg-white">
                             <Section className="bg-[#252f3d] flex py-5 items-center justify-center text-center mx-auto px-[35px]">
@@ -42,21 +44,24 @@ export const RecoveryTemplate = ({
                                 </Heading>
                                 <Text className="text-[#333] text-[14px] leading-[24px] mt-6 mb-[14px] mx-0">
                                     Мы получили запрос на сброс пароля для
-                                    вашего аккаунта Flavor Fit !{' '}
-                                    <b>Не показывайте этот код никому!</b>
-                                    .Если это были не вы просто проигнорируйте
-                                    это письмо.
+                                    вашего аккаунта Flavor Fit! Если это были не
+                                    вы просто проигнорируйте это письмо.
                                 </Text>
                                 <Section className="flex items-center justify-center">
-                                    <Text className="text-[#333] m-0 font-bold text-center text-[14px]">
-                                        Код подтверждения
+                                    <Text className="text-[#333] m-0 font-bold text-start text-[14px]">
+                                        Ссылка для сброса пароля:
                                     </Text>
 
-                                    <Text className="text-[#333] text-[36px] my-[10px] mx-0 font-bold text-center">
-                                        {splitToken}
-                                    </Text>
+                                    <Link
+                                        href={resetLink}
+                                        className="text-[#333] text-[14px] my-[10px] mx-0 font-bold text-center text-blue-600"
+                                    >
+                                        Перейдите по ссылке чтобы сбросить
+                                        пароль
+                                    </Link>
                                     <Text className="text-[#333] text-[14px] m-0 text-center">
-                                        (Код действителен в течение 10 минут)
+                                        (Ссылка действительна в течение 10
+                                        минут)
                                     </Text>
                                 </Section>
                             </Section>

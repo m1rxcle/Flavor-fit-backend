@@ -4,11 +4,12 @@ import type { User } from 'prisma/generated/prisma/client';
 import { Role } from 'prisma/generated/prisma/enums';
 
 import { Authorization, Authorized } from 'src/auth/decorators';
-import type { ISortBy } from 'src/common/interfaces';
+import { SortByEnum } from 'src/common/enums/sort-by.enum';
 
 import { RecipeCreateInput, RecipeUpdateInput } from './inputs';
 import { RecipeModel } from './models';
 import { RecipesService } from './recipes.service';
+
 @Authorization()
 @Resolver()
 export class RecipesResolver {
@@ -28,13 +29,15 @@ export class RecipesResolver {
 
     @Query(() => [RecipeModel])
     public sortRecipes(
-        @Args('sortBy', { type: () => String }) sortBy: ISortBy,
+        @Args('sortBy', { type: () => SortByEnum }) sortBy: SortByEnum,
     ) {
         return this.recipesService.sort(sortBy);
     }
 
     @Query(() => [RecipeModel])
-    public searchRecipes(@Args('searchTerm') searchTerm: string) {
+    public searchRecipes(
+        @Args('searchTerm', { type: () => String }) searchTerm: string,
+    ) {
         return this.recipesService.search(searchTerm);
     }
 

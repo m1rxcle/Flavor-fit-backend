@@ -89,4 +89,15 @@ export class EmailConfirmationService {
 
         return true;
     }
+
+    public async resendVerificationToken(email: string) {
+        const user = await this.userService.findByEmail(email);
+
+        if (!user) throw new NotFoundException('Пользователь не найден !');
+
+        if (user.isVerified)
+            throw new BadRequestException('Пользователь уже верифицирован !');
+
+        return this.sendVerificationToken(user);
+    }
 }

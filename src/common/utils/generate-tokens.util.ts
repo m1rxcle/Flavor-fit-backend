@@ -6,6 +6,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 import type { GeneratedToken } from '../interfaces';
 
+import * as uuid from 'uuid';
+
 /**
  * Генерирует токен код для пользователя и сохраняет его в базе данных.
  *
@@ -38,6 +40,7 @@ export const generateTokens = async (
     prismaService: PrismaService,
 ): Promise<GeneratedToken> => {
     const token = Math.floor(100000 + Math.random() * 900000).toString();
+    const uuidToken = uuid.v4();
     const expiresIn = new Date(new Date().getTime() + 10 * 60 * 1000);
 
     const currentUser = await prismaService.user.findUnique({
@@ -82,7 +85,7 @@ export const generateTokens = async (
         data: {
             userId: user.id,
             email: currentUser.email,
-            token,
+            token: type === TokenType.PASSWORD_RESET ? uuidToken : token,
             expiresIn,
             type: type,
         },
