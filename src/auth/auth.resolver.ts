@@ -3,7 +3,7 @@ import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import type { GraphQLContext } from 'src/common/interfaces';
 
 import { AuthService } from './auth.service';
-import { UserAgent } from './decorators/user-agent.decorator';
+import { Captcha, UserAgent } from './decorators';
 import { LoginInput, RegisterInput } from './inputs';
 import { AuthResponse, RegisterResponse } from './models';
 
@@ -18,6 +18,7 @@ export class AuthResolver {
         return this.authService.register(input);
     }
 
+    @Captcha()
     @Mutation(() => AuthResponse)
     login(
         @Context() { req, res }: GraphQLContext,

@@ -5,7 +5,7 @@ import type { User } from 'prisma/generated/prisma/client';
 import { Authorization, Authorized } from 'src/auth/decorators';
 
 import { CommentsService } from './comments.service';
-import { CommentInput } from './inputs/comment.input';
+import { CreateCommentInput, EditCommentInput } from './inputs';
 import { CommentsModel } from './model';
 
 @Resolver()
@@ -23,17 +23,19 @@ export class CommentsResolver {
     @Mutation(() => CommentsModel)
     public createComment(
         @Authorized('id') authorId: string,
-        @Args('input', { type: () => CommentInput }) input: CommentInput,
+        @Args('input', { type: () => CreateCommentInput })
+        input: CreateCommentInput,
     ) {
         return this.commentsService.create(authorId, input);
     }
 
     @Authorization()
-    @Mutation(() => Boolean)
+    @Mutation(() => CommentsModel)
     public editComment(
         @Authorized('id') authorId: string,
         @Args('id', { type: () => String }) id: string,
-        @Args('input', { type: () => CommentInput }) input: CommentInput,
+        @Args('input', { type: () => EditCommentInput })
+        input: EditCommentInput,
     ) {
         return this.commentsService.edit(id, authorId, input);
     }

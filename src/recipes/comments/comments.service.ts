@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     ForbiddenException,
     Injectable,
     NotFoundException,
@@ -8,7 +9,8 @@ import type { Comment, User } from 'prisma/generated/prisma/client';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
-import type { CommentInput } from './inputs/comment.input';
+import type { CreateCommentInput } from './inputs/create-comment.input';
+import type { EditCommentInput } from './inputs';
 
 @Injectable()
 export class CommentsService {
@@ -16,14 +18,26 @@ export class CommentsService {
 
     public async create(
         authorId: string,
-        input: CommentInput,
+        input: CreateCommentInput,
     ): Promise<Comment> {
         const { content, recipeId } = input;
+
+        if (!recipeId) {
+            throw new NotFoundException('Такого рецепта не существует');
+        }
+
         return this.prismaService.comment.create({
             data: {
                 recipeId,
                 authorId,
                 content,
+            },
+            include: {
+                author: {
+                    include: {
+                        profile: true,
+                    },
+                },
             },
         });
     }
@@ -31,16 +45,22 @@ export class CommentsService {
     public async edit(
         id: string,
         authorId: string,
-        input: CommentInput,
-    ): Promise<boolean> {
+        input: EditCommentInput,
+    ): Promise<Comment> {
         const { content } = input;
 
         const comment = await this.prismaService.comment.findUnique({
             where: { id },
             include: {
-                author: true,
+                author: {
+                    include: {
+                        profile: true,
+                    },
+                },
             },
         });
+
+        console.log({ comment, authorId });
 
         if (!comment) {
             throw new NotFoundException('Такого комментария не существует');
@@ -52,7 +72,13 @@ export class CommentsService {
             );
         }
 
-        await this.prismaService.comment.update({
+        if (!content) {
+            throw new BadRequestException(
+                'Текст комментария не может быть пустым',
+            );
+        }
+
+        return await this.prismaService.comment.update({
             where: {
                 id: comment.id,
                 authorId,
@@ -61,11 +87,13 @@ export class CommentsService {
                 content,
             },
             include: {
-                author: true,
+                author: {
+                    include: {
+                        profile: true,
+                    },
+                },
             },
         });
-
-        return true;
     }
 
     public async getAllFromRecipe(recipeId: string): Promise<Comment[]> {
@@ -74,7 +102,11 @@ export class CommentsService {
                 recipeId,
             },
             include: {
-                author: true,
+                author: {
+                    include: {
+                        profile: true,
+                    },
+                },
             },
         });
 
@@ -91,7 +123,11 @@ export class CommentsService {
         const comment = await this.prismaService.comment.findUnique({
             where: { id },
             include: {
-                author: true,
+                author: {
+                    include: {
+                        profile: true,
+                    },
+                },
             },
         });
 

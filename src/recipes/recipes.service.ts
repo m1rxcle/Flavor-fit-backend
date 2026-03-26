@@ -18,6 +18,21 @@ export class RecipesService {
 
     // filters(category,tags, searchTerm(title,description,ingredients)), sorting(default, recommended(likes), popularity(views)),
 
+    public async isLiked(recipeId: string, userId: string): Promise<boolean> {
+        if (!userId) return false;
+
+        const like = await this.prismaService.like.findUnique({
+            where: {
+                userId_recipeId: {
+                    userId,
+                    recipeId,
+                },
+            },
+        });
+
+        return !!like;
+    }
+
     public async search(searchTerm: string): Promise<Recipe[]> {
         const recipes = await this.prismaService.recipe.findMany({
             include: {
@@ -176,7 +191,11 @@ export class RecipesService {
         const recipe = await this.prismaService.recipe.findUnique({
             where: { slug },
             include: {
-                author: true,
+                author: {
+                    include: {
+                        profile: true,
+                    },
+                },
                 nutritionFact: true,
                 recipeIngredients: {
                     include: {
@@ -186,7 +205,15 @@ export class RecipesService {
                 recipeStep: true,
                 tag: true,
                 likes: true,
-                comments: true,
+                comments: {
+                    include: {
+                        author: {
+                            include: {
+                                profile: true,
+                            },
+                        },
+                    },
+                },
                 views: true,
             },
         });

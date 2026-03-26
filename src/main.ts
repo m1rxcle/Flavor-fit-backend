@@ -27,7 +27,7 @@ async function bootstrap() {
     app.enableCors({
         origin: config.getOrThrow<string>('CORS_ORIGIN'),
         credentials: true,
-        allowedHeaders: ['Content-Type', 'Authorization'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'cf-turnstile-token'],
     });
 
     await app.listen(config.getOrThrow<number>('PORT'));

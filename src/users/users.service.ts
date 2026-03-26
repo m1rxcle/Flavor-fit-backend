@@ -75,7 +75,9 @@ export class UsersService {
         const isValidPassword = await verify(user.password, oldPassword);
 
         if (!isValidPassword) {
-            throw new UnauthorizedException('Неверный пароль');
+            throw new UnauthorizedException(
+                'Вы ввели неверный старый пароль. Пожалуйста, повторите попытку.',
+            );
         }
 
         await this.prisma.user.update({
@@ -93,12 +95,23 @@ export class UsersService {
     async changeEmail(user: User, input: ChangeEmailInput) {
         const { newEmail } = input;
 
+        const existedUserWithNewEmail = await this.prisma.user.findUnique({
+            where: {
+                email: newEmail,
+            },
+        });
+
+        if (existedUserWithNewEmail) {
+            throw new Error('Пользователь с таким email уже зарегистрирован');
+        }
+
         await this.prisma.user.update({
             where: {
                 id: user.id,
             },
             data: {
                 email: newEmail,
+                isVerified: false,
             },
         });
 

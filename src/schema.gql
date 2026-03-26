@@ -112,16 +112,11 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
-input CommentInput {
-  """Содержание комментария"""
-  content: String!
-
-  """ID рецепта"""
-  recipeId: String!
-}
-
 """Комментарии к рецепту"""
 type CommentsModel {
+  """Автор комментария"""
+  author: UserProfileModel!
+
   """ID автора комментария"""
   authorId: String!
 
@@ -145,6 +140,14 @@ input ConfirmationInput {
   token: String!
 }
 
+input CreateCommentInput {
+  """Содержание комментария"""
+  content: String!
+
+  """ID рецепта"""
+  recipeId: String
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -160,6 +163,11 @@ enum Difficulty {
 
   """Средний"""
   MEDIUM
+}
+
+input EditCommentInput {
+  """Содержание комментария"""
+  content: String!
 }
 
 """Гендеры пользователей"""
@@ -257,7 +265,7 @@ input LoginInput {
 type Mutation {
   changeEmail(data: ChangeEmailInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
-  createComment(input: CommentInput!): CommentsModel!
+  createComment(input: CreateCommentInput!): CommentsModel!
   createIngredient(data: IngredientInput!): IngredientModel!
   createOrder(input: OrderCreateInput!): Order!
   createRecipe(data: RecipeCreateInput!): RecipeModel!
@@ -265,7 +273,7 @@ type Mutation {
   deleteIngredient(id: String!): Boolean!
   deleteRecipe(id: String!): Boolean!
   disableTwoFactor: Boolean!
-  editComment(id: String!, input: CommentInput!): Boolean!
+  editComment(id: String!, input: EditCommentInput!): CommentsModel!
   enableTwoFactor: Boolean!
   login(data: LoginInput!): AuthResponse!
   logout: Boolean!
@@ -543,8 +551,8 @@ type RecipeIngredientModel {
   """ID ингредиента"""
   id: String!
 
-  """Название ингредиента"""
-  ingredientId: String!
+  """Ингредиент"""
+  ingredient: IngredientModel!
 
   """Количество ингредиента"""
   quantity: Float!
@@ -589,6 +597,9 @@ type RecipeModel {
 
   """Ссылка на картинку рецепта"""
   imageUrl: String!
+
+  """Лайкнут ли рецепт"""
+  isLiked: Boolean
 
   """Лайки рецепта"""
   likes: [LikeModel!]

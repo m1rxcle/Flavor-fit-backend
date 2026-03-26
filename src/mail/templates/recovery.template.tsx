@@ -24,7 +24,7 @@ export const RecoveryTemplate = ({
     userMetadata,
 }: RecoveryTemplateProps) => {
     const { device, ip, location } = userMetadata;
-    const resetLink = `${FRONTEND_URL}/reset-password/${token}`;
+    const resetLink = `${FRONTEND_URL}/auth/reset-password/${token}`;
 
     return (
         <Tailwind>

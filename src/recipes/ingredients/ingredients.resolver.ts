@@ -9,20 +9,21 @@ import { IngredientInput, IngredientUpdateInput } from './inputs';
 import { IngredientModel } from './models';
 
 @Resolver()
-@Authorization(Role.ADMIN)
 export class IngredientsResolver {
     constructor(private readonly ingredientsService: IngredientsService) {}
 
+    @Authorization(Role.ADMIN)
     @Query(() => [IngredientModel])
     public getAllIngredients() {
         return this.ingredientsService.findAll();
     }
 
+    @Authorization(Role.ADMIN)
     @Query(() => IngredientModel)
     public getIngredientById(@Args('id') id: string) {
         return this.ingredientsService.findById(id);
     }
-
+    @Authorization(Role.ADMIN)
     @Mutation(() => IngredientModel)
     public createIngredient(
         @Args('data', { type: () => IngredientInput })
@@ -30,7 +31,7 @@ export class IngredientsResolver {
     ) {
         return this.ingredientsService.create(input);
     }
-
+    @Authorization(Role.ADMIN)
     @Mutation(() => IngredientModel)
     public updateIngredient(
         @Args('id') id: string,
@@ -39,7 +40,7 @@ export class IngredientsResolver {
     ) {
         return this.ingredientsService.update(id, input);
     }
-
+    @Authorization(Role.ADMIN)
     @Mutation(() => Boolean)
     public deleteIngredient(@Args('id') id: string) {
         return this.ingredientsService.delete(id);

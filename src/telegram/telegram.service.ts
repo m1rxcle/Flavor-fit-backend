@@ -1,4 +1,4 @@
-import { Injectable, type OnModuleInit } from '@nestjs/common';
+/* import { Injectable, type OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
     Action,
@@ -190,3 +190,4 @@ export class TelegramService extends Telegraf implements OnModuleInit {
         });
     }
 }
+ */

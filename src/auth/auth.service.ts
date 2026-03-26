@@ -15,7 +15,7 @@ import { Role, TokenType } from 'prisma/generated/prisma/enums';
 import type { UserMetadata } from 'src/common/interfaces';
 import { getMetadata, IsDev, ms } from 'src/common/utils';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TelegramService } from 'src/telegram/telegram.service';
+/* import { TelegramService } from 'src/telegram/telegram.service'; */
 import { UsersService } from 'src/users/users.service';
 
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service';
@@ -38,7 +38,7 @@ export class AuthService {
         private readonly configService: ConfigService,
         private readonly emailConfirmationService: EmailConfirmationService,
         private readonly twoFactorService: TwoFactorService,
-        private readonly telegramService: TelegramService,
+        /* private readonly telegramService: TelegramService, */
     ) {
         this.JWT_ACCESS_TOKEN_TTL = this.configService.getOrThrow<StringValue>(
             'JWT_ACCESS_TOKEN_TTL',
@@ -104,9 +104,11 @@ export class AuthService {
             await this.emailConfirmationService.sendVerificationToken(
                 existedUser,
             );
-            throw new ForbiddenException(
-                'Ваш email не подтвержден. Пожалуйста, проверьте вашу почту и подтвердите ваш аккаунт.',
-            );
+            return {
+                user: existedUser,
+                message:
+                    'Ваш email не подтвержден. Пожалуйста, проверьте вашу почту и подтвердите ваш аккаунт.',
+            };
         }
 
         if (existedUser.isTwoFactorEnabled) {
@@ -127,6 +129,7 @@ export class AuthService {
 
             if (!twoFactorToken) {
                 return {
+                    user: existedUser,
                     message: 'Необходим код двухфакторной авторизации !',
                 };
             }
@@ -145,6 +148,7 @@ export class AuthService {
                     type: TokenType.TWO_FACTOR,
                 },
             });
+            return this.auth(res, existedUser);
         }
 
         const { device, ip, location } = userMetadata;
@@ -172,7 +176,7 @@ export class AuthService {
                 },
             });
 
-            await this.telegramService.newUser(userMetadata, existedUser);
+            /*  await this.telegramService.newUser(userMetadata, existedUser); */
         }
 
         return this.auth(res, existedUser);

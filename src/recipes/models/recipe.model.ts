@@ -47,6 +47,8 @@ export class RecipeModel {
 
     @Field(() => [LikeModel], { description: 'Лайки рецепта', nullable: true })
     likes?: LikeModel[];
+    @Field(() => Boolean, { description: 'Лайкнут ли рецепт', nullable: true })
+    isLiked?: boolean;
     @Field(() => [CommentsModel], {
         description: 'Комментарии рецепта',
         nullable: true,

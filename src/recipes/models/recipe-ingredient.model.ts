@@ -1,13 +1,14 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
 
 import { Unit } from '../enums';
+import { IngredientModel } from '../ingredients/models';
 
 @ObjectType()
 export class RecipeIngredientModel {
     @Field(() => String, { description: 'ID ингредиента' })
     id!: string;
-    @Field(() => String, { description: 'Название ингредиента' })
-    ingredientId!: string;
+    @Field(() => IngredientModel, { description: 'Ингредиент' })
+    ingredient!: IngredientModel;
     @Field(() => Float, { description: 'Количество ингредиента' })
     quantity!: number;
     @Field(() => String, { description: 'ID рецепта' })

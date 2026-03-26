@@ -1,12 +1,11 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import * as uuid from 'uuid';
 
 import { TokenType, type User } from 'prisma/generated/prisma/client';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import type { GeneratedToken } from '../interfaces';
-
-import * as uuid from 'uuid';
 
 /**
  * Генерирует токен код для пользователя и сохраняет его в базе данных.

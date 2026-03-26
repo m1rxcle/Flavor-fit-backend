@@ -1,4 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+    Args,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    Resolver,
+} from '@nestjs/graphql';
 
 import type { User } from 'prisma/generated/prisma/client';
 import { Role } from 'prisma/generated/prisma/enums';
@@ -9,11 +16,18 @@ import { SortByEnum } from 'src/common/enums/sort-by.enum';
 import { RecipeCreateInput, RecipeUpdateInput } from './inputs';
 import { RecipeModel } from './models';
 import { RecipesService } from './recipes.service';
-
 @Authorization()
-@Resolver()
+@Resolver(() => RecipeModel)
 export class RecipesResolver {
     constructor(private readonly recipesService: RecipesService) {}
+
+    @ResolveField(() => Boolean)
+    public async isLiked(
+        @Parent() recipe: RecipeModel,
+        @Authorized('id') userId: string,
+    ) {
+        return this.recipesService.isLiked(recipe.id, userId);
+    }
 
     @Query(() => [RecipeModel])
     public getAllRecipes(
@@ -48,7 +62,6 @@ export class RecipesResolver {
     ) {
         return this.recipesService.getBySlug(userId, slug);
     }
-
     @Mutation(() => RecipeModel)
     public createRecipe(
         @Authorized('id') authorId: string,
@@ -57,7 +70,6 @@ export class RecipesResolver {
     ) {
         return this.recipesService.create(authorId, input);
     }
-
     @Mutation(() => RecipeModel)
     public updateRecipe(
         @Authorized('id') authorId: string,
@@ -67,7 +79,6 @@ export class RecipesResolver {
     ) {
         return this.recipesService.update(id, authorId, input);
     }
-
     @Mutation(() => Boolean)
     public deleteRecipe(@Authorized() author: User, @Args('id') id: string) {
         return this.recipesService.delete(id, author);
